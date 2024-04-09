@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hillal-Tchat-Application</title>
+    <link rel="stylesheet" href="./tchat.css">
+    <link rel="stylesheet" href="./css/all.css">
+</head>
+<body>
+    
+    <input type="password"  id="mdp" placeholder="mot de passe...">
+
+
+
+<div class="app">
+    <h3>&copy; tchatApp Hillal-Y-23 &copy;</h3>
+    
+    <nav>
+        <div class="nphoto">
+
+            <div id="green"></div>
+            <img  class="photo">
+        </div>
+        <div class="nnom">
+            <div id="n"></div>
+            <div class="nom"></div>
+        </div>
+        <div class="theme">
+            <div class="th" id="noir"></div>
+            <div class="th" id="gri"></div>
+            <div class="th" id="pic1"></div>
+            <div class="th" id="pic2"></div>
+
+        </div>
+        <div class="vid">
+
+            <div class="quitter">x</div>
+            <div class="video" onclick="kamera()" ><i class="fa fa-video" ></i></div>
+        </div>
+        <div class="aud">
+
+            <div class="quitteraudio">x</div>
+            <div class="audio" onclick="microphone()" ><i class="fa fa-microphone"></i></div>
+        </div>
+        <div class="clear"><i class="fa fa-trash"></i></div>
+        
+    </nav>
+    <div class="content">
+        <div class="containeraudio"><i class="italic"></i><i class="fa fa-microphone"></i><p></p></div>
+        <div class="coeur"></div>
+        <p id="entrainecrire"></p>
+    </div>
+   <div class="footer">
+
+    
+    <input type="file" value=" photo" id="fil" accept="image/*" onchange="lire()" placeholder="photo" >
+    
+
+      <div class="areacoeur">
+          <textarea  id="textarea" cols="10" rows="10" placeholder="Nouveau Msg..."></textarea>
+         <div class="divcoeur">
+
+             <i class="fa fa-heart" id="boutoncoeur" onclick="generercoeur()"></i> 
+            </div>
+        </div>
+       <button id="envoyer"> <i class="fa fa-paper-plane"></i></button>
+    </div>
+    
+</div>
+
+
+    <script src="./tchat.js"></script>
+</body>
+</html>

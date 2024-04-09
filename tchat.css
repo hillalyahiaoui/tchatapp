@@ -1,0 +1,624 @@
+*{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+;
+margin: 0;
+padding: 0;
+}
+body{
+    background-color: black;
+}
+
+.app{
+    width: 380px;
+    height: 540px;
+    border: 2px solid black;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%);
+    overflow: hidden;
+    background-color:rgb(245, 241, 241);
+    visibility: hidden;
+    
+   
+    
+}
+h3{
+    text-transform: uppercase;
+    margin: 0 auto;
+    text-align: center;
+    background-color: black;
+    color: white;
+    font-weight: bolder;
+    padding: 10px;
+    font-size: 1.5rem;
+    
+    border-bottom: 1px dashed white;
+    width: 100%;
+    
+}
+nav{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding: 0;
+    color: white;
+    margin: 0 auto;
+    box-shadow: -20px 4px 13px 2px rgb(55 52 61 / 95%);
+    
+}
+.nom{
+    width: 50px;
+    position: relative;
+}
+
+.content{
+    overflow-y: scroll;
+
+    height: 350px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 1px;
+    
+    
+    
+}
+.image{
+    position: relative;
+    border-radius: 10px;
+    width: 150px;
+    height: 180px;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor:text;
+}
+
+.footer{
+    padding: 0PX;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+     width: 100%;
+     height: 40px;
+     position: fixed;
+     bottom: 0px;
+     box-shadow: -13px -5px 2px 0px rgb(101 49 205 / 95%);
+     /* background-color: rgb(190, 190, 153); */
+    
+    
+}
+#fil{
+     height: 50px;
+    width: 50px; 
+  padding: -10px; ;
+  cursor:pointer;
+  font-size: 1.5rem;
+  text-align:left;
+  z-index: 5666;
+  margin-top: 15px;
+  margin-left: 4px;
+  
+}
+#fil:hover{
+    transform: scale(1.3);
+    background-color: darkblue;
+    cursor: pointer;
+    
+}
+textarea{
+    border-radius: 15px;
+    resize: none;
+    width: 180px;
+    height: 40px;
+    border: none;
+    outline: none;
+    margin: 0 5px;
+    padding: 3px 10px;
+    font-size: 1rem;
+    border-radius: 10px 10px 0px 0px;
+    color: rgb(17, 37, 48);
+    bottom: 0;
+    background-color: rgb(209, 207, 204);
+}
+textarea::placeholder{
+    color:darkblue;
+    font-size: 1rem;
+
+}
+ button{
+    
+    cursor: pointer;     
+    /* height: 35px;
+    width: 50px;  */
+    border: none;
+    outline: none;
+    /* color: rgb(87, 77, 184); */
+    /* border-radius: 5px; */
+    font-weight: bolder;
+    transition: 0.6s;
+    margin-right: 10px;
+    background: none;
+    color: darkblue;
+
+} 
+button:hover{
+   
+    transition: 0.5s ease-in-out;
+    transform: scale(1.2);
+    color: blue;
+    margin-right: 10px;
+    
+}
+.photo{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.droite{
+    background-color: rgb(42, 117, 230);
+    color: white;
+    padding:  10px;
+    border-radius: 29px 145px 9px 28px;
+    float: right;
+    margin-left: 8px;
+}
+.gauche{
+    background-color: rgb(178, 178, 196);
+    color: black;
+    padding: 10px ;
+    border-radius: 140px 145px 150px 9px;
+    margin-right: 8px;
+    float: left;
+}
+.ph{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.hillal{
+    display: flex;
+    align-items:flex-end;
+    float: right;
+    margin-right: 0;
+    
+}
+.amel{
+    display: flex;
+    align-items:flex-end;
+    float: left;
+    margin-left: 0;
+    
+}
+
+.date{
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: gray;
+    text-align: center;
+    margin: 10px 0px 0px 0px;
+}
+
+.clear{
+    
+    
+    border-radius: 5px;
+    border: 1px solid blue;
+    padding: 2px;
+    height: 40px;
+    margin-right: 4px;
+
+}
+.theme{
+    display: flex;
+    border-radius: 5px;
+    border: 1px solid blue;
+    padding: 10px 5px;
+}
+.quitter,.quitteraudio, .audio,.clear{
+    cursor: pointer;
+    transition: 0.8s;
+}
+.quitter:hover{
+    transform: scale(1.3) translateY(-5px);
+    font-weight: bolder;
+
+}
+
+.quitteraudio:hover{
+    transform: scale(1.3) translateY(-5px);
+    font-weight: bolder;
+
+}
+ .theme:hover{
+    opacity: 0.8;
+}
+ .clear:hover{
+    opacity: 0.8;
+}
+.nomhillal{
+    background-color: blue;
+    padding: 5px;
+    border-radius: 30px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 1.2rem;
+}
+.nomamel{
+    background-color: rgb(60, 60, 63);
+    padding: 5px;
+    border-radius: 30px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 1.2rem;
+    
+}
+
+.nn{
+    display: flex;
+    flex-direction: column;
+
+}
+#n{
+    position: absolute;
+    top: 50px;
+    left: 95px;
+}
+.nhillal{
+    background-color: red;
+    color:whitesmoke;
+    border-radius: 50%;
+    padding: 2px;
+    z-index: 22;
+    width: 11px;
+    height: 11px;
+    font-size: 0.5rem;
+    text-align: center;
+}
+.namel{
+    background-color:blue;
+    color:whitesmoke;
+    border-radius: 50%;
+    padding: 2px;
+    z-index: 22;
+    width: 11px;
+    height: 11px;
+    font-size: 0.5rem;
+    text-align: center;
+}
+
+.bloc1{
+    display: block;
+    float: right;
+    margin-right: 0;
+    
+}
+.bloc2{
+    display: block;
+    float: left;
+    margin-left: 0;
+}
+
+.new1{
+   
+    float: right;
+    margin-right: 0px;
+}
+.new2{
+    
+    float: left;
+    margin-left: 0px;
+}
+
+.coeur{
+    overflow: hidden;
+   
+}
+.nouveaucoeur{
+    top:500px;
+    position: absolute;
+    animation: anim 8s forwards;
+}
+
+@keyframes anim{
+    to{
+        top: 0px;
+    }
+}
+
+.areacoeur{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    /* background-color: rgb(102, 95, 95); */
+    height: 40px;
+    width: 230px;
+   
+    margin: 0 8px;
+    border-radius: 20px;
+}
+.divcoeur{
+    height: 40px;
+    width: 20px;
+    border-radius: 1px;
+    display: none;
+}
+ .fa-heart{
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: rgb(255, 5, 5);
+    text-align: center;
+    margin-top: 7px;
+    
+}
+ .fa-heart:hover{
+    transform: scale(1.3) rotate(35deg);
+    transition: 0.6s ease-in-out;
+    
+}
+ .fa-trash{
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: rgb(255, 5, 5);
+    text-align: center;
+    margin-top: 20px;
+    
+}
+
+.th{
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+#noir{
+    background-color: black;
+}
+#gri{
+    background-color:rgb(245, 241, 241);   
+}
+#pic1{
+    background: url("./pic1.jpg") no-repeat center/cover;
+}
+#pic2{
+    background: url("./pic2.jpg") no-repeat center/cover;
+}
+
+.noir{
+    background-color: black;
+    color: white;
+}
+.gri{
+    background-color:rgb(245, 241, 241);   
+
+}
+.pic1{
+    background: url("./pic1.jpg") no-repeat center/cover;
+    color: white;
+}
+.pic2{
+    background: url("./pic2.jpg") no-repeat center/cover;
+}
+
+
+#entrainecrire{
+    font-size: 0.6rem;
+    padding: 5px;
+    position: absolute;
+    right: 2px;
+    bottom: 40px;
+    animation: anim2 3s infinite;
+    
+}
+
+@keyframes anim2{
+    25%{
+        bottom: 45px;
+    }
+    50%{
+        bottom: 40px;
+    }
+    75%{
+        bottom: 45px;
+    }
+    100%{
+        bottom: 40px;
+    }
+}
+.entrainecrire{
+    background-color: rgb(46, 45, 45);
+    border-radius: 20px;
+    color: whitesmoke;
+}
+
+.coeurrouge{
+    width: 50px;
+    height: 50px;
+    
+}
+.nphoto{
+    display: flex;
+    flex-direction: column;
+}
+#green{
+    background-color: rgb(48, 212, 48);
+    border-radius: 50%;
+    width: 11px;
+    height: 11px;
+    position: absolute;
+    top: 78px;
+    left: 40px;
+    z-index: 8;
+    display: none;
+}
+
+.video{
+    
+    
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.blocvideo{
+    width: 250px;
+    height: 200px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 0 auto;
+position:sticky;
+top: 1px;
+}
+
+
+.containeraudio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(167, 121, 211);
+    width: 150px;
+    border-radius: 15px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    position: fixed;
+    top: 120px;
+    
+}
+p{
+    margin-left: 20px;
+}
+
+.fa-video, .fa-microphone{
+    color: darkblue;
+    font-size: 1.2rem;
+}
+.clear:hover{
+    background-color: blue;
+    
+}
+.fa-trash:hover{
+
+    transform: scale(1.2);
+    padding: 3px;
+
+    
+}
+
+.fa-microphone:hover{
+    transform: scale(1.3);
+    transition: 0.6s ease-in-out;
+    color:rgb(55, 156, 55);
+}
+.fa-video:hover{
+    transform: scale(1.3);
+    transition: 0.6s ease-in-out;
+    color:rgb(55, 156, 55);
+}
+
+.aud, .vid{
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    
+    justify-content: center;
+    align-items: center;
+    border: 1px solid blue;
+    padding: 2px;
+    width: 30px;
+    height: 40px;
+    border-radius: 5px;
+}
+em, .quitter,.quitteraudio{
+    color: red;
+    font-size: 1.1rem;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+
+.li{
+    list-style: none;
+    padding: 5px;
+    margin: 1px;
+    cursor: pointer;
+}
+.divli{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(194, 177, 177, 0.555);
+    border-radius: 5px;
+}
+
+  #mdp{
+    position: absolute;
+    width: 180px;
+    height: 40px;
+    font-size: 1.3rem;
+    color: white;
+    background-color: black;
+    top: 150px;
+    transform: translateX(-50%);
+    left: 50%;
+    border-radius: 15px;
+    padding: 10px;  
+}   
+
+#noir:hover{
+    transform: scale(1.3);
+    transition: 0.6s ease-in-out;
+}
+#gri:hover{
+    transform: scale(1.3);
+    transition: 0.6s ease-in-out;
+}
+#pic1:hover{
+    transform: scale(1.3);
+    transition: 0.6s ease-in-out;
+}
+#pic2:hover{
+    transform: scale(1.3);
+    transition: 0.6s ease-in-out;
+}
+.theme:hover{
+    background-color: blue;
+    transition: 0.6s ease-out;
+}
+
+.fa-paper-plane{
+    font-size: 1.5rem;
+    transform: rotate(25deg);
+    margin-right: 8px;
+}
+
+.vid:hover{
+    background-color: blue;
+    transition: 0.6s ease-out;
+}
+.aud:hover{
+    background-color: blue;
+    transition: 0.6s ease-out;
+}
+.clear:hover{
+    background-color: blue;
+    transition: 0.6s ease-out;
+}
+
+.fa fa-trash{
+    transform: scale(1.3);
+    transition: 0.6s ease-in-out;  
+}
+
+
+
+.classe{
+    position: absolute;
+    width: 300px;
+    height: 50px;
+    
+}
