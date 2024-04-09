@@ -29,7 +29,7 @@ var photcoeur = ["images.jpeg"]
 var compteurhillal=0;
 var compteuramel=0;
 document.getElementById('mdp').addEventListener("input", (e)=>{
-    if(e.target.value ==="9524amel") {
+    if(e.target.value ==="9524amell") {
         app.style.visibility="visible";
     document.querySelector("#textarea").focus()
     document.getElementById('mdp').style.display="none";
