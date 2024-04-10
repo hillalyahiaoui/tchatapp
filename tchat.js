@@ -437,7 +437,7 @@ function microphone(){
         var filinpute = document.getElementById('fil').files[0]
         var lir = new FileReader()
         lir.onload= function (){
-            localStirage.setItem('rc', lir.result)
+            localStorage.setItem('rc', lir.result)
         }
             if(filinpute){
                lir.readAsDataURL(filinpute) 
