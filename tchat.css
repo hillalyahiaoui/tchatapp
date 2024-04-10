@@ -18,7 +18,7 @@ body{
     transform: translate(-50%);
     overflow: hidden;
     background-color:rgb(245, 241, 241);
-    /*visibility: hidden;*/
+    visibility: hidden;
     
    
     
@@ -555,7 +555,7 @@ em, .quitter,.quitteraudio{
     border-radius: 5px;
 }
 
-/*  #mdp{
+ #mdp{
     position: absolute;
     width: 180px;
     height: 40px;
@@ -567,7 +567,7 @@ em, .quitter,.quitteraudio{
     left: 50%;
     border-radius: 15px;
     padding: 10px;  
-}   */
+}   
 
 #noir:hover{
     transform: scale(1.3);
