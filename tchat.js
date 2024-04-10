@@ -143,14 +143,15 @@ if(texte == " ") {
     texte.classList.remove("droite")
     texte.classList.remove("gauche")
 }
- 
+ if(localStorage.getItem("ww")!=null){
+    
 if(texte[0] === "."){
 
      element.innerHTML=`
      <div class="bloc1">
      <div class="date">${date1}</div>
  <div class="hillal">
- <div class="droite">${texte}</div>
+ <div class="droite">${ localStorage.getItem(ww)}</div>
  <img class="ph" src = ${picture[0]}>
  
  </div>
@@ -161,13 +162,16 @@ if(texte[0] === "."){
     <div class="bloc2">
     <div class="date">${date1}</div>
     <div class="amel">
-    <img class="ph" src = ${picture[1]}>
-    <div class="gauche">${texte}</div>
+    <img class="ph" src = ${picture[0]}>
+    <div class="gauche">${localStorage.getItem(ww)}</div>
     
     </div>
     </div>
     `   
 }
+ }
+    localStorage.setItem("ww", texte);
+    
 texte=" ";
 
 /*************************delet texte**************** */
@@ -187,6 +191,8 @@ clear.addEventListener("click", ()=>{
         compteuramel=0;
         compteur.textContent=" ";
         document.querySelector("#textarea").focus();
+        localStorage.clear();
+    
         
         
     }
@@ -417,7 +423,7 @@ function microphone(){
     /*************************lire un fichier**************** */
 
     function lire(){
-    var filinpute = document.getElementById('fil').files;
+  /*  var filinpute = document.getElementById('fil').files;
         var imageinput = document.createElement('img');
         imageinput.classList.add('image');
         content.appendChild(imageinput)
@@ -426,7 +432,22 @@ function microphone(){
         lir.onload= function (e){
             imageinput.setAttribute('src', e.target.result)
         }
-        lir.readAsDataURL(filinpute[0])
+        lir.readAsDataURL(filinpute[0])*/
+
+        var filinpute = document.getElementById('fil').files[0]
+        var lir = new FileReader()
+        lir.onload= function (){
+            localStirage.setItem('rc', lir.result)
+        }
+            if(filinpute){
+               lir.readAsDataURL(filinpute) 
+            }
+        let pip= localStorage.getItem("rc")
+        var imageinput = document.createElement('img')
+        imageinput.src=pip
+        imageinput.classList.add('image')
+        content.appendChild(imageinput)
+        
         
     /*************************delet fichier****************  */
     imageinput.addEventListener("dblclick", ()=>{ 
