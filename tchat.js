@@ -468,14 +468,13 @@ function microphone(){
                 
                 li.remove();
                 generercoeur()
+                
             }
+
+            
             
         })
+
+
     })
-    }}
-
-
-
-
-
-    
+    }
