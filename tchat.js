@@ -21,7 +21,7 @@ var containeraudio=document.querySelector('.containeraudio');
 var areacoeur=document.querySelector('.areacoeur');
 
 var texte="";
-var bip = ["audio1.mp3", "audio2.mp3"];
+var bip = ["oaudio1.mp3", "oaudio2.mp3"];
 var picture = ["hil.jpg", "hana.jpeg"];
 var user = ["Hillal", "Amel"];
 var photcoeur = ["images.jpeg"]
@@ -29,7 +29,7 @@ var photcoeur = ["images.jpeg"]
 var compteurhillal=0;
 var compteuramel=0;
 document.getElementById('mdp').addEventListener("input", (e)=>{
-    if(e.target.value ==="9524amell") {
+    if(e.target.value ==="9524") {
         app.style.visibility="visible";
     document.querySelector("#textarea").focus()
     document.getElementById('mdp').style.display="none";
@@ -191,7 +191,7 @@ clear.addEventListener("click", ()=>{
         compteuramel=0;
         compteur.textContent=" ";
         document.querySelector("#textarea").focus();
-        localStorage.clear();
+    
     
         
         
