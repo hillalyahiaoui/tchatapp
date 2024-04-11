@@ -6,6 +6,8 @@ padding: 0;
 }
 body{
     background-color: black;
+    margin: 0px;
+    padding: 0px;
 }
 
 .app{
@@ -62,7 +64,8 @@ nav{
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 10px 1px;
+    margin-bottom: 50px;
+    padding: 0;
     
     
     
@@ -466,7 +469,7 @@ button:hover{
 }
 .blocvideo{
     width: 80%;
-    height: 400px;
+    height: 350px;
     border-radius: 10px;
     text-align: center;
     margin: 0 auto;
