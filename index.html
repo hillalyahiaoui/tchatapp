@@ -72,5 +72,28 @@
 
 
     <script src="./tchat.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  document.getElementById("envoyer").onclick = () => {
+    const message = document.getElementById("textarea").value;
+    socket.emit("chat message", message);
+    afficherMessage("Moi : " + message);
+    document.getElementById("textarea").value = "";
+  };
+
+  socket.on("chat message", (msg) => {
+    afficherMessage("Lui : " + msg);
+  });
+
+  function afficherMessage(msg) {
+    const p = document.createElement("p");
+    p.innerText = msg;
+    document.querySelector(".content").appendChild(p);
+  }
+</script>
+    
 </body>
 </html>
+
