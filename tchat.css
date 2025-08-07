@@ -11,6 +11,8 @@ body{
 }
 
 .app{
+    position: sticky;
+    top:0;
     width: 380px;
     height: 90vh;
     border: 2px solid black;
@@ -625,3 +627,4 @@ em, .quitter,.quitteraudio{
     height: 50px;
     
 }
+
