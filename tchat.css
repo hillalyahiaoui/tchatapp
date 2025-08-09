@@ -74,8 +74,8 @@ nav{
 .image{
     position: relative;
     border-radius: 10px;
-    width: 150px;
-    height: 180px;
+    width: 180px;
+    height: 200px;
     margin: 0 auto;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -627,4 +627,5 @@ em, .quitter,.quitteraudio{
     height: 50px;
     
 }
+
 
