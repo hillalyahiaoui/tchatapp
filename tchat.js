@@ -22,8 +22,8 @@ var areacoeur=document.querySelector('.areacoeur');
 
 var texte="";
 var bip = ["oaudio1.mp3", "oaudio2.mp3"];
-var picture = ["hil.jpg", "hana.kjpeg"];
-var user = ["Hillal", "hillal"];
+var picture = ["hil.jpg", "hana.jpeg"];
+var user = ["Hillal", "Amel"];
 var photcoeur = ["images.jpeg"]
 
 var compteurhillal=0;
@@ -476,6 +476,7 @@ function microphone(){
 
     })
     }
+
 
 
 
