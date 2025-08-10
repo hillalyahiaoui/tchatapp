@@ -436,12 +436,11 @@ function microphone(){
         var filinpute = document.getElementById('fil').files[0]
         var lir = new FileReader()
         lir.onload= function (){
-            localStorage.setItem('rc', lir.result)
         }
             if(filinpute){
                lir.readAsDataURL(filinpute) 
             }
-        let pip= localStorage.getItem("rc")
+        let pip= lir
         var imageinput = document.createElement('img')
         imageinput.src=pip
         imageinput.classList.add('image')
@@ -477,5 +476,6 @@ function microphone(){
 
     })
     }
+
 
 
