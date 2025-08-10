@@ -143,7 +143,7 @@ if(texte == " ") {
     texte.classList.remove("droite")
     texte.classList.remove("gauche")
 }
- if(localStorage.getItem("ww")!=null){
+ 
     
 if(texte[0] === "."){
 
@@ -169,8 +169,7 @@ if(texte[0] === "."){
     </div>
     `   
 }
- }
-    localStorage.setItem("ww", texte);
+ 
     
 texte=" ";
 
@@ -478,3 +477,4 @@ function microphone(){
 
     })
     }
+
