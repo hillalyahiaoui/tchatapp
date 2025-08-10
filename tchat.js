@@ -151,7 +151,7 @@ if(texte[0] === "."){
      <div class="bloc1">
      <div class="date">${date1}</div>
  <div class="hillal">
- <div class="droite">${ localStorage.getItem('ww')}</div>
+ <div class="droite">${ texte}</div>
  <img class="ph" src = ${picture[0]}>
  
  </div>
@@ -163,7 +163,7 @@ if(texte[0] === "."){
     <div class="date">${date1}</div>
     <div class="amel">
     <img class="ph" src = ${picture[0]}>
-    <div class="gauche">${localStorage.getItem('ww')}</div>
+    <div class="gauche">${texte}</div>
     
     </div>
     </div>
@@ -477,4 +477,5 @@ function microphone(){
 
     })
     }
+
 
