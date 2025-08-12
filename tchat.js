@@ -422,7 +422,7 @@ function microphone(){
     /*************************lire un fichier**************** */
 
     function lire(){
-  /*  var filinpute = document.getElementById('fil').files;
+    var filinpute = document.getElementById('fil').files;
         var imageinput = document.createElement('img');
         imageinput.classList.add('image');
         content.appendChild(imageinput)
@@ -431,9 +431,9 @@ function microphone(){
         lir.onload= function (e){
             imageinput.setAttribute('src', e.target.result)
         }
-        lir.readAsDataURL(filinpute[0])*/
+        lir.readAsDataURL(filinpute[0])
 
-        var filinpute = document.getElementById('fil').files[0]
+      /*  var filinpute = document.getElementById('fil').files[0]
         var lir = new FileReader()
         lir.onload= function (){
         }
@@ -444,7 +444,7 @@ function microphone(){
         var imageinput = document.createElement('img')
         imageinput.src=pip
         imageinput.classList.add('image')
-        content.appendChild(imageinput)
+        content.appendChild(imageinput)*/
         
         
     /*************************delet fichier****************  */
@@ -476,6 +476,7 @@ function microphone(){
 
     })
     }
+
 
 
 
