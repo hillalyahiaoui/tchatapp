@@ -23,7 +23,7 @@ body{
     transform: translate(-50%);
     overflow: hidden;
     background-color:rgb(245, 241, 241);
-    visibility: hidden;
+   /* visibility: hidden;*/
     
    
     
@@ -628,6 +628,7 @@ em, .quitter,.quitteraudio{
     height: 100px;
     
 }
+
 
 
 
