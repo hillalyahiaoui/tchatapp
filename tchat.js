@@ -486,7 +486,7 @@ th.forEach((chacun)=>{
 // ----------------- INIT (mot de passe "0000") -----------------
 if(mdpInput){
   mdpInput.addEventListener("input", (e)=>{
-    if(e.target.value === "0000"){
+    if(e.target.value === "5202"){
       if(app) app.style.visibility = "visible";
       if(textarea) textarea.focus();
       mdpInput.style.display = "none";
@@ -502,6 +502,7 @@ window.setUser = setUser;
 // =========================================================================================
 // Fin du fichier
 // =========================================================================================
+
 
 
 
