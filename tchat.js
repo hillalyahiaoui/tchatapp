@@ -1,6 +1,6 @@
 
-// ======================== tchat.js (version finale avec Firebase) ========================
-// Ce fichier est en module ES => inclure dans le HTML : <script type="module" src="./tchat.js"></script>
+// ======================== tchat.js (ton code original + Firebase intégré) ========================
+// Inclure dans le HTML : <script type="module" src="./tchat.js"></script>
 
 // ----------------- IMPORT FIREBASE -----------------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
@@ -41,7 +41,7 @@ const avatar = { "Hillal": "hil.jpg", "Amel": "hana.jpeg" };
 const bip = ["oaudio1.mp3", "oaudio2.mp3"];
 const picture = ["hil.jpg", "hana.jpeg"];
 
-// ----------------- SÉLECTION ELEMENTS DOM -----------------
+// ----------------- SÉLECTION ELEMENTS DOM (ton HTML inchangé) -----------------
 var app = document.querySelector('.app');
 var content = document.querySelector('.content');
 var photo = document.querySelector('.photo');
@@ -51,7 +51,6 @@ var clear = document.querySelector('.clear');
 var textarea = document.querySelector("#textarea");
 var envoyer = document.getElementById("envoyer");
 var filInput = document.getElementById('fil'); // input file image
-// (ton HTML n'a pas d'inputs audio/video séparés ; on peut ajouter si besoin)
 document.querySelector("#textarea")?.focus();
 var mdpInput = document.querySelector("#mdp");
 
@@ -165,10 +164,9 @@ if(filInput){
   filInput.addEventListener("change", (e)=>{
     const f = e.target.files && e.target.files[0];
     if(f){
-      // replace the old local-only lire() behavior by upload -> DB
+      // upload then DB
       uploadAndSendFile(f);
     }
-    // reset the input so same file can be re-selected later
     e.target.value = "";
   });
 }
@@ -188,8 +186,6 @@ onChildAdded(messagesRef, (snap) => {
   const msg = snap.val();
   if(!msg) return;
   try{
-    // avoid rendering messages twice if you previously appended them locally:
-    // design: we rely on onChildAdded as the single source of truth for display.
     const element = document.createElement('div');
     element.classList.add('message-item');
 
@@ -198,26 +194,26 @@ onChildAdded(messagesRef, (snap) => {
     // TEXT
     if(msg.type === "text" || !msg.type){
       if(msg.user === currentUserName){
-        // message sent by this client
-        element.innerHTML = `
+        element.innerHTML=`
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
-              <div class="droite">${escapeHtml(msg.text)}</div>
+              <div class="droite">${ escapeHtml(msg.text) }</div>
               <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
             </div>
-          </div>`;
-        audioh(); // play Hillal audio when Hillal sends
+          </div>
+        `;
+        audioh();
       } else {
-        // message from other
-        element.innerHTML = `
+        element.innerHTML=`
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
               <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
-              <div class="gauche">${escapeHtml(msg.text)}</div>
+              <div class="gauche">${ escapeHtml(msg.text) }</div>
             </div>
-          </div>`;
+          </div>
+        `;
         audioa();
       }
       incrementCounterFor(msg.user);
@@ -225,24 +221,26 @@ onChildAdded(messagesRef, (snap) => {
     // IMAGE
     else if(msg.type === "image"){
       if(msg.user === currentUserName){
-        element.innerHTML = `
+        element.innerHTML=`
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
-              <div class="droite"><img class="shared-image" src="${escapeHtml(msg.url)}" alt="${escapeHtml(msg.name)||''}"></div>
+              <div class="droite"><img class="phshared" src="${escapeHtml(msg.url)}" /></div>
               <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
             </div>
-          </div>`;
+          </div>
+        `;
         audioh();
       } else {
-        element.innerHTML = `
+        element.innerHTML=`
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
               <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
-              <div class="gauche"><img class="shared-image" src="${escapeHtml(msg.url)}" alt="${escapeHtml(msg.name)||''}"></div>
+              <div class="gauche"><img class="phshared" src="${escapeHtml(msg.url)}" /></div>
             </div>
-          </div>`;
+          </div>
+        `;
         audioa();
       }
       incrementCounterFor(msg.user);
@@ -250,24 +248,26 @@ onChildAdded(messagesRef, (snap) => {
     // AUDIO
     else if(msg.type === "audio"){
       if(msg.user === currentUserName){
-        element.innerHTML = `
+        element.innerHTML=`
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
               <div class="droite"><audio controls src="${escapeHtml(msg.url)}"></audio></div>
               <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
             </div>
-          </div>`;
+          </div>
+        `;
         audioh();
       } else {
-        element.innerHTML = `
+        element.innerHTML=`
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
               <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
               <div class="gauche"><audio controls src="${escapeHtml(msg.url)}"></audio></div>
             </div>
-          </div>`;
+          </div>
+        `;
         audioa();
       }
       incrementCounterFor(msg.user);
@@ -275,48 +275,65 @@ onChildAdded(messagesRef, (snap) => {
     // VIDEO
     else if(msg.type === "video"){
       if(msg.user === currentUserName){
-        element.innerHTML = `
+        element.innerHTML=`
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
               <div class="droite"><video controls width="320" src="${escapeHtml(msg.url)}"></video></div>
               <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
             </div>
-          </div>`;
+          </div>
+        `;
         audioh();
       } else {
-        element.innerHTML = `
+        element.innerHTML=`
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
               <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
               <div class="gauche"><video controls width="320" src="${escapeHtml(msg.url)}"></video></div>
             </div>
-          </div>`;
+          </div>
+        `;
         audioa();
       }
       incrementCounterFor(msg.user);
     }
-    // mention-heart or other types
+    // mention-heart
     else if(msg.type === "mention-heart"){
-      // show a tiny heart entry and trigger the visually animated hearts
       if(msg.user === currentUserName){
-        element.innerHTML = `<div class="bloc1"><div class="date">${escapeHtml(dateText)}</div><div class="hillal"><i class="fa fa-heart"></i><img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}"></div></div>`;
+        element.innerHTML=`
+          <div class="bloc1">
+            <div class="date">${escapeHtml(dateText)}</div>
+            <div class="hillal">
+              <i class="fa fa-heart"></i>
+              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
+            </div>
+          </div>
+        `;
         generercoeur();
       } else {
-        element.innerHTML = `<div class="bloc2"><div class="date">${escapeHtml(dateText)}</div><div class="amel"><img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}"><i class="fa fa-heart"></i></div></div>`;
+        element.innerHTML=`
+          <div class="bloc2">
+            <div class="date">${escapeHtml(dateText)}</div>
+            <div class="amel">
+              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
+              <i class="fa fa-heart"></i>
+            </div>
+          </div>
+        `;
         generercoeur();
       }
       incrementCounterFor(msg.user);
-    } else {
-      // fallback
+    }
+    else {
       element.innerHTML = `<pre>${escapeHtml(JSON.stringify(msg, null, 2))}</pre>`;
     }
 
-    // double-click local remove
+    // double-click remove (local)
     element.addEventListener("dblclick", ()=>{
-      const cleartexte = confirm("Voulez-vous supprimer ce message localement ?");
-      if(cleartexte === true) element.remove();
+      var cleartexte = confirm("Voulez-vous supprimer ce message localement ?");
+      if(cleartexte===true) element.remove();
     });
 
     content.appendChild(element);
@@ -428,10 +445,8 @@ function microphone(){
 }
 window.microphone = microphone;
 
-// ----------------- LIRE (ancien) - modifié pour uploader -----------------
+// ----------------- LIRE (existant) - modifié pour uploader -----------------
 function lire(){
-  // si tu veux garder l'affichage local instantané sans upload, tu peux
-  // utiliser la version FileReader (mais on préfère uploader puis DB)
   if(!filInput) return;
   const file = filInput.files && filInput.files[0];
   if(!file) return;
@@ -472,7 +487,7 @@ th.forEach((chacun)=>{
 if(mdpInput){
   mdpInput.addEventListener("input", (e)=>{
     if(e.target.value === "0000"){
-      if(app) app.style.visibility="visible";
+      if(app) app.style.visibility = "visible";
       if(textarea) textarea.focus();
       mdpInput.style.display = "none";
     }
@@ -487,6 +502,7 @@ window.setUser = setUser;
 // =========================================================================================
 // Fin du fichier
 // =========================================================================================
+
 
 
 
