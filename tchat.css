@@ -626,6 +626,13 @@ em, .quitter,.quitteraudio{
     height: 100px;
     
 }
+@media screen and (max-width: 800px) {
+  .app{
+    
+    width: 100%;
+    height: 100%;
+  }}
+
 
 
 
