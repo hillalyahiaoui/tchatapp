@@ -73,9 +73,18 @@ var compteurhillal=0;
 var compteuramel=0;
 
 // ----------------- UTIL - DATE -----------------
-function formatDateNow(){
+/*function formatDateNow(){
   const d = new Date();
   return d.toLocaleString("fr-FR", { weekday: "short", hour: "2-digit", minute: "2-digit" });
+}*/
+
+function formatDateNow() {
+  const jours = ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."];
+  const d = new Date();
+  const jour = jours[d.getDay()];
+  const heures = String(d.getHours()).padStart(2, '0');
+  const minutes = String(d.getMinutes()).padStart(2, '0');
+  return `${jour} ${heures}:${minutes}`;
 }
 
 // ----------------- UTIL - ESCAPE HTML -----------------
@@ -502,6 +511,7 @@ window.setUser = setUser;
 // =========================================================================================
 // Fin du fichier
 // =========================================================================================
+
 
 
 
