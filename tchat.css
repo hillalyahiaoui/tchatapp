@@ -62,7 +62,7 @@ nav{
 .content{
     overflow-y: scroll;
 
-    height: 540px;
+    height: 400px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -632,6 +632,7 @@ em, .quitter,.quitteraudio{
     width: 100%;
     height: 100%;
   }}
+
 
 
 
