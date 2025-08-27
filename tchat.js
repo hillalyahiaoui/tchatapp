@@ -194,35 +194,33 @@ if(filInput){
   });
 }*/
 
-async function uploadAndSendFile(file) {
-  if (!file) return;
+async function uploadAndSendFile(file){
+  if(!file) return;
+  let type = "file";
+  if(file.type.startsWith("image/")) type = "image";
+  else if(file.type.startsWith("audio/")) type = "audio";
+  else if(file.type.startsWith("video/")) type = "video";
 
-  // Crée une référence unique dans Firebase Storage
-  const storageRef = firebase.storage().ref();
-  const fileRef = storageRef.child("uploads/" + Date.now() + "_" + file.name);
+  const path = `${type}s/${Date.now()}_${file.name}`;
+  const sref = storageRef(storage, path);
 
   try {
-    // Upload du fichier
-    await fileRef.put(file);
+    const snapshot = await uploadBytes(sref, file);
+    const url = await getDownloadURL(snapshot.ref);
 
-    // Récupération de l'URL publique
-    const url = await fileRef.getDownloadURL();
-
-    // Création d’un message avec le lien du fichier
-    const messageData = {
-      sender: currentUser, // adapte selon ton code
-      type: file.type.startsWith("image/") ? "image" : "file",
+    await push(messagesRef, {
+      user: currentUserName,
+      type: type,
       url: url,
-      timestamp: firebase.database.ServerValue.TIMESTAMP
-    };
-
-    // Ajout du message à la DB (comme pour un texte)
-    firebase.database().ref("messages").push(messageData);
-
-  } catch (error) {
-    console.error("Erreur upload fichier :", error);
+      name: file.name,
+      size: file.size,
+      date: new Date().toLocaleString()
+    });
+  } catch (err) {
+    console.error("Upload error:", err);
   }
 }
+
 
 
 // ----------------- RENDER MESSAGE RECEIVED FROM DB -----------------
@@ -509,7 +507,6 @@ window.microphone = microphone;
   // optional: keep the old local preview logic commented out or remove
 }
 window.lire = lire;*/
-
 function lire() {
   if (!filInput) return;
   const file = filInput.files && filInput.files[0];
@@ -521,8 +518,8 @@ function lire() {
     reader.onload = function(e) {
       const preview = document.createElement("img");
       preview.src = e.target.result;
-      preview.classList.add("phshared"); // même style que tes images envoyées
-      preview.style.opacity = "0.7";     // un effet pour montrer que c’est en attente
+      preview.classList.add("phshared"); // style comme les images envoyées
+      preview.style.opacity = "0.7";     // effet pour montrer que c’est en attente
       content.appendChild(preview);
       content.scrollTop = content.scrollHeight;
     };
@@ -536,6 +533,7 @@ function lire() {
   filInput.value = "";
 }
 window.lire = lire;
+
 
 
 // ----------------- CLEAR ALL (existant) -----------------
@@ -584,6 +582,7 @@ window.setUser = setUser;
 // =========================================================================================
 // Fin du fichier
 // =========================================================================================
+
 
 
 
