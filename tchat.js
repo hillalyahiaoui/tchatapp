@@ -469,7 +469,7 @@ function microphone(){
 window.microphone = microphone;
 
 // ----------------- LIRE (existant) - modifié pour uploader -----------------
-function lire(){
+/*function lire(){
   if(!filInput) return;
   const file = filInput.files && filInput.files[0];
   if(!file) return;
@@ -477,7 +477,35 @@ function lire(){
   uploadAndSendFile(file);
   // optional: keep the old local preview logic commented out or remove
 }
+window.lire = lire;*/
+
+function lire() {
+  if (!filInput) return;
+  const file = filInput.files && filInput.files[0];
+  if (!file) return;
+
+  // ---- Prévisualisation locale ----
+  if (file.type.startsWith("image/")) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const preview = document.createElement("img");
+      preview.src = e.target.result;
+      preview.classList.add("phshared"); // même style que tes images envoyées
+      preview.style.opacity = "0.7";     // un effet pour montrer que c’est en attente
+      content.appendChild(preview);
+      content.scrollTop = content.scrollHeight;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ---- Upload vers Firebase ----
+  uploadAndSendFile(file);
+
+  // reset input
+  filInput.value = "";
+}
 window.lire = lire;
+
 
 // ----------------- CLEAR ALL (existant) -----------------
 if(clear){
@@ -525,6 +553,7 @@ window.setUser = setUser;
 // =========================================================================================
 // Fin du fichier
 // =========================================================================================
+
 
 
 
