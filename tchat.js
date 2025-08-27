@@ -1,5 +1,5 @@
 
-// ======================== tchat.js (ton code original + Firebase intégré) ========================
+// ======================== tchat.js (version finale) ========================
 // Inclure dans le HTML : <script type="module" src="./tchat.js"></script>
 
 // ----------------- IMPORT FIREBASE -----------------
@@ -35,11 +35,8 @@ const storage = getStorage(appFirebase);
 const messagesRef = dbRef(db, "messages");
 
 // ----------------- CONFIG UTILISATEUR -----------------
-// Par défaut : Hillal. Si ta fiancée utilise le même fichier, change currentUserName à "Amel".
-//let currentUserName = "Hillal"; // tu peux changer dynamiquement avec window.setUser("Amel")
 let currentUserName = localStorage.getItem("tchatUser") || "Hillal"; 
 
-// forcer choix utilisateur si pas défini
 if (!localStorage.getItem("tchatUser")) {
   const who = prompt("Es-tu Hillal ou Amel ? (écris exactement le prénom)");
   if (who === "Amel" || who === "Hillal") {
@@ -48,14 +45,13 @@ if (!localStorage.getItem("tchatUser")) {
   }
 }
 
-// mettre à jour l’UI
 setUser(currentUserName);
 
 const avatar = { "Hillal": "hil.jpg", "Amel": "hana.jpeg" };
 const bip = ["oaudio1.mp3", "oaudio2.mp3"];
 const picture = ["hil.jpg", "hana.jpeg"];
 
-// ----------------- SÉLECTION ELEMENTS DOM (ton HTML inchangé) -----------------
+// ----------------- SÉLECTION ELEMENTS DOM -----------------
 var app = document.querySelector('.app');
 var content = document.querySelector('.content');
 var photo = document.querySelector('.photo');
@@ -64,7 +60,7 @@ var theme = document.querySelector('.theme');
 var clear = document.querySelector('.clear');
 var textarea = document.querySelector("#textarea");
 var envoyer = document.getElementById("envoyer");
-var filInput = document.getElementById('fil'); // input file image
+var filInput = document.getElementById('fil'); 
 document.querySelector("#textarea")?.focus();
 var mdpInput = document.querySelector("#mdp");
 
@@ -87,11 +83,6 @@ var compteurhillal=0;
 var compteuramel=0;
 
 // ----------------- UTIL - DATE -----------------
-/*function formatDateNow(){
-  const d = new Date();
-  return d.toLocaleString("fr-FR", { weekday: "short", hour: "2-digit", minute: "2-digit" });
-}*/
-
 function formatDateNow() {
   const jours = ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."];
   const d = new Date();
@@ -124,76 +115,10 @@ function setUser(name){
 }
 window.setUser = setUser;
 
-// initial UI user
 if(nom) nom.textContent = currentUserName;
 if(photo) photo.src = avatar[currentUserName] || picture[0];
 
-// ----------------- ENVOI MESSAGE (PUSH DB) -----------------
-if(envoyer){
-  envoyer.addEventListener("click", (e)=>{
-    e.preventDefault();
-    const message = (textarea && textarea.value) ? textarea.value.trim() : "";
-    if(message === "") return;
-    // push into firebase only — onChildAdded affichera le message
-    push(messagesRef, {
-      user: currentUserName,
-      type: "text",
-      text: message,
-      date: new Date().toLocaleString()
-    }).catch(err => console.error("Push error:", err));
-    // clear textarea and UI hints
-    if(textarea) { textarea.value = ""; textarea.focus(); }
-    if(entraiecrire){ entraiecrire.textContent = ""; entraiecrire.classList.remove('entrainecrire'); }
-    if(divcoeur) divcoeur.style.display = "none";
-  });
-
-  // send on Enter (no shift)
-  textarea?.addEventListener("keydown", (ev) => {
-    if(ev.key === "Enter" && !ev.shiftKey){
-      ev.preventDefault();
-      envoyer.click();
-    }
-  });
-}
-
 // ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
-/*async function uploadAndSendFile(file){
-  if(!file) return;
-  try{
-    // detect type
-    let type = "file";
-    if(file.type.startsWith("image/")) type = "image";
-    else if(file.type.startsWith("audio/")) type = "audio";
-    else if(file.type.startsWith("video/")) type = "video";
-    const path = `${type}s/${Date.now()}_${file.name}`;
-    const sref = storageRef(storage, path);
-    const snapshot = await uploadBytes(sref, file);
-    const url = await getDownloadURL(snapshot.ref);
-    await push(messagesRef, {
-      user: currentUserName,
-      type: type,
-      url: url,
-      name: file.name,
-      size: file.size,
-      date: new Date().toLocaleString()
-    });
-  }catch(err){
-    console.error("Upload error:", err);
-  }
-}
-
-// hook file input (existing in your HTML)
-if(filInput){
-  filInput.addEventListener("change", (e)=>{
-    const f = e.target.files && e.target.files[0];
-    if(f){
-      // upload then DB
-      uploadAndSendFile(f);
-    }
-    e.target.value = "";
-  });
-}*/
-
 async function uploadAndSendFile(file){
   if(!file) return;
   let type = "file";
@@ -220,8 +145,6 @@ async function uploadAndSendFile(file){
     console.error("Upload error:", err);
   }
 }
-
-
 
 // ----------------- RENDER MESSAGE RECEIVED FROM DB -----------------
 function incrementCounterFor(userName){
@@ -382,10 +305,8 @@ onChildAdded(messagesRef, (snap) => {
       element.innerHTML = `<pre>${escapeHtml(JSON.stringify(msg, null, 2))}</pre>`;
     }
 
-    // double-click remove (local)
-    element.addEventListener("dblclick", ()=>{
-      var cleartexte = confirm("Voulez-vous supprimer ce message localement ?");
-      if(cleartexte===true) element.remove();
+    element.addEventListener("dblclick", ()=>{ 
+      if(confirm("Voulez-vous supprimer ce message localement ?")) element.remove();
     });
 
     content.appendChild(element);
@@ -395,7 +316,7 @@ onChildAdded(messagesRef, (snap) => {
   }
 });
 
-// ----------------- GÉNÉRATEUR DE COEURS (existant) -----------------
+// ----------------- GÉNÉRATEUR DE COEURS -----------------
 function generercoeur(){
   var heat = setInterval(() => {
     var math = Math.random()*15+15+"px";
@@ -407,7 +328,6 @@ function generercoeur(){
     setTimeout(() => coeurrouge.remove(), 9000);
   }, 50);
 
-  // envoyer mention coeur dans DB pour que l'autre voie l'effet
   push(messagesRef, {
     user: currentUserName,
     type: "mention-heart",
@@ -415,132 +335,67 @@ function generercoeur(){
   }).catch(()=>{});
 }
 
-// ----------------- TIMMER / CALCUL (existant) -----------------
-var calcul = ()=>{
-  const italic = document.querySelector('.italic');
-  if(italic){
-    italic.style.fontSize="0.5rem";
-    italic.style.marginRight="5px"
-    italic.textContent = formatDateNow();
-  }
-  var cal=0; var second; var minute=0;
-  var calinterval = setInterval(() => {
-    cal++;
-    if(cal<60) second = cal;
-    else { cal = 0; second = cal; minute++; cal++; }
-    if(second < 10) second = "0"+ second;
-    var affichage = minute + ":" + second;
-    const p = document.querySelector("p");
-    if(p) p.textContent = affichage;
-    if(minute==30){
-      setTimeout(() => { clearInterval(calinterval); if(p) p.textContent = affichage; }, 2000);
+// ----------------- BOUTON UNIQUE ENVOYER -----------------
+let pendingFile = null;
+
+if(filInput){
+  filInput.addEventListener("change", (e)=>{
+    const file = e.target.files && e.target.files[0];
+    if(file){
+      pendingFile = file;
+      if(file.type.startsWith("image/")){
+        const reader = new FileReader();
+        reader.onload = function(ev){
+          const preview = document.createElement("img");
+          preview.src = ev.target.result;
+          preview.classList.add("phshared");
+          preview.style.opacity = "0.7";
+          content.appendChild(preview);
+          content.scrollTop = content.scrollHeight;
+        };
+        reader.readAsDataURL(file);
+      }
     }
-  }, 1000);
-};
-
-// ----------------- CAMERA (existant) -----------------
-function kamera(){
-  var x = {audio: true, video:{width:1000, height:700}};
-  navigator.mediaDevices.getUserMedia(x)
-  .then(function (y){
-    var video= document.createElement("video");
-    video.classList.add('blocvideo');
-    video.srcObject = y;
-    var z = video.srcObject.getTracks();
-    content.appendChild(video);
-    video.onloadedmetadata = function () { video.play(); }
-
-    quitter.addEventListener("dblclick", ()=>{
-      var cameraout = confirm("Voulez-vous désactiver la caméra!!");
-      if(cameraout==true) {
-        setTimeout(() => {
-          z.forEach(a=>a.stop());
-          video.remove();
-        }, 500);
-      }
-    });
-  })
-  .catch(function(err){
-    console.log(err.name+":"+err.message);
+    filInput.value = "";
   });
 }
-window.kamera = kamera;
 
-// ----------------- MICROPHONE (existant) -----------------
-function microphone(){
-  var xx = {audio: true};
-  navigator.mediaDevices.getUserMedia(xx)
-  .then(function(yy){
-    var audio= document.createElement("audio");
-    audio.srcObject=yy;
-    var zz = audio.srcObject.getTracks()
-    containeraudio.appendChild(audio);
-    containeraudio.style.opacity="1"
-    audio.onloadedmetadata = function(e){ audio.play() }
+if(envoyer){
+  envoyer.addEventListener("click", async (e)=>{
+    e.preventDefault();
+    const messageText = textarea?.value?.trim() || "";
 
-    quitteraudio.addEventListener("dblclick", ()=>{
-      var microout = confirm("Voulez-vous désactiver le micro!!");
-      if(microout==true) {
-        setTimeout(() => {
-          containeraudio.style.opacity="0"
-          zz.forEach(a=>a.stop());
-          audio.remove();
-        }, 500);
-      }
-    });
-  })
-  .catch(function(err){
-    console.log(err.name+":"+err.message);
+    if(pendingFile){
+      await uploadAndSendFile(pendingFile);
+      pendingFile = null;
+    }
+
+    if(messageText !== ""){
+      await push(messagesRef, {
+        user: currentUserName,
+        type: "text",
+        text: messageText,
+        date: new Date().toLocaleString()
+      });
+    }
+
+    if(textarea){ textarea.value = ""; textarea.focus(); }
+    if(entraiecrire){ entraiecrire.textContent = ""; entraiecrire.classList.remove('entrainecrire'); }
+    if(divcoeur) divcoeur.style.display = "none";
   });
 
-  calcul(); // lancer le minuteur pendant l'audio
+  textarea?.addEventListener("keydown", (ev) => {
+    if(ev.key === "Enter" && !ev.shiftKey){
+      ev.preventDefault();
+      envoyer.click();
+    }
+  });
 }
-window.microphone = microphone;
 
-// ----------------- LIRE (existant) - modifié pour uploader -----------------
-/*function lire(){
-  if(!filInput) return;
-  const file = filInput.files && filInput.files[0];
-  if(!file) return;
-  // upload and send to Firebase Storage + DB
-  uploadAndSendFile(file);
-  // optional: keep the old local preview logic commented out or remove
-}
-window.lire = lire;*/
-function lire() {
-  if (!filInput) return;
-  const file = filInput.files && filInput.files[0];
-  if (!file) return;
-
-  // ---- Prévisualisation locale ----
-  if (file.type.startsWith("image/")) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const preview = document.createElement("img");
-      preview.src = e.target.result;
-      preview.classList.add("phshared"); // style comme les images envoyées
-      preview.style.opacity = "0.7";     // effet pour montrer que c’est en attente
-      content.appendChild(preview);
-      content.scrollTop = content.scrollHeight;
-    };
-    reader.readAsDataURL(file);
-  }
-
-  // ---- Upload vers Firebase ----
-  uploadAndSendFile(file);
-
-  // reset input
-  filInput.value = "";
-}
-window.lire = lire;
-
-
-
-// ----------------- CLEAR ALL (existant) -----------------
+// ----------------- CLEAR ALL -----------------
 if(clear){
   clear.addEventListener("click", ()=>{
-    const clearall = confirm("Voulez-vous supprimer tout!!");
-    if(clearall==true) {
+    if(confirm("Voulez-vous supprimer tout!!")){
       while(content.firstChild) content.removeChild(content.firstChild);
       compteurhillal=0; compteuramel=0;
       if(compteur){ compteur.textContent=""; compteur.classList.remove("nhillal","namel"); }
@@ -549,7 +404,7 @@ if(clear){
   });
 }
 
-// ----------------- THEMES (existant) -----------------
+// ----------------- THEMES -----------------
 th.forEach((chacun)=>{
   chacun.addEventListener('click', (e)=>{
     app.classList.remove("noir", "gri", "pic1", "pic2");
@@ -563,7 +418,7 @@ th.forEach((chacun)=>{
   });
 });
 
-// ----------------- INIT (mot de passe "0000") -----------------
+// ----------------- INIT MOT DE PASSE -----------------
 if(mdpInput){
   mdpInput.addEventListener("input", (e)=>{
     if(e.target.value === "5202"){
@@ -578,10 +433,8 @@ if(mdpInput){
 window.generercoeur = generercoeur;
 window.uploadAndSendFile = uploadAndSendFile;
 window.setUser = setUser;
-
-// =========================================================================================
-// Fin du fichier
-// =========================================================================================
+window.kamera = kamera;
+window.microphone = microphone;
 
 
 
