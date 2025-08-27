@@ -157,7 +157,7 @@ if(envoyer){
 }
 
 // ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
-async function uploadAndSendFile(file){
+/*async function uploadAndSendFile(file){
   if(!file) return;
   try{
     // detect type
@@ -192,7 +192,38 @@ if(filInput){
     }
     e.target.value = "";
   });
+}*/
+
+async function uploadAndSendFile(file) {
+  if (!file) return;
+
+  // Crée une référence unique dans Firebase Storage
+  const storageRef = firebase.storage().ref();
+  const fileRef = storageRef.child("uploads/" + Date.now() + "_" + file.name);
+
+  try {
+    // Upload du fichier
+    await fileRef.put(file);
+
+    // Récupération de l'URL publique
+    const url = await fileRef.getDownloadURL();
+
+    // Création d’un message avec le lien du fichier
+    const messageData = {
+      sender: currentUser, // adapte selon ton code
+      type: file.type.startsWith("image/") ? "image" : "file",
+      url: url,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    };
+
+    // Ajout du message à la DB (comme pour un texte)
+    firebase.database().ref("messages").push(messageData);
+
+  } catch (error) {
+    console.error("Erreur upload fichier :", error);
+  }
 }
+
 
 // ----------------- RENDER MESSAGE RECEIVED FROM DB -----------------
 function incrementCounterFor(userName){
@@ -553,6 +584,7 @@ window.setUser = setUser;
 // =========================================================================================
 // Fin du fichier
 // =========================================================================================
+
 
 
 
