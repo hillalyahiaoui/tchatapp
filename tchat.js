@@ -36,7 +36,21 @@ const messagesRef = dbRef(db, "messages");
 
 // ----------------- CONFIG UTILISATEUR -----------------
 // Par défaut : Hillal. Si ta fiancée utilise le même fichier, change currentUserName à "Amel".
-let currentUserName = "Hillal"; // tu peux changer dynamiquement avec window.setUser("Amel")
+//let currentUserName = "Hillal"; // tu peux changer dynamiquement avec window.setUser("Amel")
+let currentUserName = localStorage.getItem("tchatUser") || "Hillal"; 
+
+// forcer choix utilisateur si pas défini
+if (!localStorage.getItem("tchatUser")) {
+  const who = prompt("Es-tu Hillal ou Amel ? (écris exactement le prénom)");
+  if (who === "Amel" || who === "Hillal") {
+    currentUserName = who;
+    localStorage.setItem("tchatUser", who);
+  }
+}
+
+// mettre à jour l’UI
+setUser(currentUserName);
+
 const avatar = { "Hillal": "hil.jpg", "Amel": "hana.jpeg" };
 const bip = ["oaudio1.mp3", "oaudio2.mp3"];
 const picture = ["hil.jpg", "hana.jpeg"];
@@ -511,6 +525,7 @@ window.setUser = setUser;
 // =========================================================================================
 // Fin du fichier
 // =========================================================================================
+
 
 
 
