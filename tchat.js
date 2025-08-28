@@ -121,6 +121,7 @@ if(photo) photo.src = avatar[currentUserName] || picture[0];
 // ----------------- INDICATEUR EN LIGNE -----------------
 
 // Création dynamique du cercle vert
+/*
 var ggreen = document.createElement("div");
 green.style.width = "15px";
 green.style.height = "15px";
@@ -169,7 +170,7 @@ function setUser(name){
 window.setUser = setUser;
 setUser(currentUserName);
 
-
+*/
 
 // ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
 async function uploadAndSendFile(file){
@@ -488,6 +489,7 @@ window.uploadAndSendFile = uploadAndSendFile;
 window.setUser = setUser;
 window.kamera = kamera;
 window.microphone = microphone;
+
 
 
 
