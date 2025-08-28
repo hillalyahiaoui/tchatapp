@@ -118,6 +118,59 @@ window.setUser = setUser;
 if(nom) nom.textContent = currentUserName;
 if(photo) photo.src = avatar[currentUserName] || picture[0];
 
+// ----------------- INDICATEUR EN LIGNE -----------------
+
+// Création dynamique du cercle vert
+var ggreen = document.createElement("div");
+green.style.width = "15px";
+green.style.height = "15px";
+green.style.backgroundColor = "green";
+green.style.borderRadius = "50%";
+green.style.position = "absolute";
+green.style.bottom = "2px";
+green.style.right = "2px";
+green.style.border = "2px solid white";
+green.style.display = "none"; // caché par défaut
+green.style.zIndex = "10";
+
+// On insère le cercle dans le conteneur parent de la photo
+if(photo && photo.parentNode){
+  photo.parentNode.style.position = "relative"; // parent doit être relatif
+  photo.parentNode.appendChild(ggreen);
+}
+
+// Référence à Firebase pour la présence
+import { set, onDisconnect, onValue, ref as dbRef } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+function setUser(name){
+  currentUserName = name;
+
+  if(nom) nom.textContent = currentUserName;
+  if(photo) photo.src = avatar[currentUserName] || picture[0];
+
+  const onlineRef = dbRef(db, `online/${currentUserName}`);
+  const otherUser = currentUserName === "Hillal" ? "Amel" : "Hillal";
+  const otherOnlineRef = dbRef(db, `online/${otherUser}`);
+
+  // Marquer cet utilisateur en ligne et retirer à la déconnexion
+  set(onlineRef, true);
+  onDisconnect(onlineRef).remove();
+
+  // Surveille l'état de l'autre utilisateur
+  onValue(otherOnlineRef, (snap) => {
+    if(snap.exists()){
+      ggreen.style.display = "block"; // l'autre est en ligne
+    } else {
+      ggreen.style.display = "none"; // l'autre est hors ligne
+    }
+  });
+}
+
+window.setUser = setUser;
+setUser(currentUserName);
+
+
+
 // ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
 async function uploadAndSendFile(file){
   if(!file) return;
@@ -435,6 +488,7 @@ window.uploadAndSendFile = uploadAndSendFile;
 window.setUser = setUser;
 window.kamera = kamera;
 window.microphone = microphone;
+
 
 
 
