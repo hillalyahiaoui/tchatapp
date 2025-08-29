@@ -491,30 +491,38 @@ window.kamera = kamera;
 window.microphone = microphone;
 
 
-// Charger la librairie Emoji Button
+    // Charger la librairie Emoji Button
 const script = document.createElement("script");
 script.src = "https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.js";
 document.head.appendChild(script);
 
 script.onload = () => {
-  const picker = new EmojiButton({
-    position: "top-start", // position par rapport au textarea
-    autoHide: false
+  // Sélecteur d'emoji
+  const picker = new EmojiButton();
+
+  // Récupère ton textarea
+  const textarea = document.getElementById("area");
+
+  // Crée un bouton emoji à côté du textarea
+  const emojiBtn = document.createElement("button");
+  emojiBtn.textContent = "😀";
+  emojiBtn.style.marginLeft = "5px";
+  emojiBtn.style.cursor = "pointer";
+  emojiBtn.type = "button"; // pour ne pas envoyer le formulaire
+  textarea.parentNode.insertBefore(emojiBtn, textarea.nextSibling);
+
+  // Quand tu cliques sur le bouton, ouvre/ferme le picker
+  emojiBtn.addEventListener("click", () => {
+    picker.togglePicker(emojiBtn);
   });
 
-  const textarea = document.getElementById("area"); // ton textarea où tu écris le message
-
-  // Quand tu cliques dans le textarea, on affiche le sélecteur
-  textarea.addEventListener("focus", () => {
-    picker.togglePicker(textarea);
-  });
-
-  // Quand tu choisis un emoji, on l’ajoute directement dans le texte
+  // Quand un emoji est choisi, on l’ajoute dans le textarea
   picker.on("emoji", emoji => {
     textarea.value += emoji;
   });
 };
-        
+    
+
 
 
 
