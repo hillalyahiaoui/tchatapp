@@ -501,7 +501,7 @@ script.onload = () => {
   const picker = new EmojiButton();
 
   // Récupère ton textarea
-  const textarea = document.getElementById("area");
+  
 
   // Crée un bouton emoji à côté du textarea
   const emojiBtn = document.createElement("button");
@@ -522,6 +522,7 @@ script.onload = () => {
   });
 };
     
+
 
 
 
