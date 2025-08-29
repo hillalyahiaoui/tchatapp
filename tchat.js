@@ -125,57 +125,49 @@ if(photo) photo.src = avatar[currentUserName] || picture[0];
 
 // ----------------- INDICATEUR EN LIGNE -----------------
 
-// Création dynamique du cercle vert
-/*
-var ggreen = document.createElement("div");
-green.style.width = "15px";
-green.style.height = "15px";
-green.style.backgroundColor = "green";
-green.style.borderRadius = "50%";
-green.style.position = "absolute";
-green.style.bottom = "2px";
-green.style.right = "2px";
-green.style.border = "2px solid white";
-green.style.display = "none"; // caché par défaut
-green.style.zIndex = "10";
+// ----------------- PRÉSENCE EN LIGNE -----------------
+import { set, onDisconnect, onValue } 
+  from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
-// On insère le cercle dans le conteneur parent de la photo
-if(photo && photo.parentNode){
-  photo.parentNode.style.position = "relative"; // parent doit être relatif
-  photo.parentNode.appendChild(ggreen);
+// Référence "presence" dans Firebase
+const presenceRef = dbRef(db, "presence/" + currentUserName);
+
+// Marquer l’utilisateur actuel en ligne
+set(presenceRef, { online: true, lastSeen: Date.now() });
+// Retirer quand il ferme la page
+onDisconnect(presenceRef).set({ online: false, lastSeen: Date.now() });
+
+// Déterminer l’autre utilisateur
+const otherUser = currentUserName === "Hillal" ? "Amel" : "Hillal";
+const otherPresenceRef = dbRef(db, "presence/" + otherUser);
+
+// Petit rond vert sur la photo si l’autre est en ligne
+const onlineCircle = document.createElement("div");
+onlineCircle.style.width = "12px";
+onlineCircle.style.height = "12px";
+onlineCircle.style.backgroundColor = "limegreen";
+onlineCircle.style.border = "2px solid white";
+onlineCircle.style.borderRadius = "50%";
+onlineCircle.style.position = "absolute";
+onlineCircle.style.bottom = "2px";
+onlineCircle.style.right = "2px";
+onlineCircle.style.display = "none";
+
+if (photo && photo.parentNode) {
+  photo.parentNode.style.position = "relative";
+  photo.parentNode.appendChild(onlineCircle);
 }
 
-// Référence à Firebase pour la présence
-import { set, onDisconnect, onValue, ref as dbRef } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+// Surveille la présence de l’autre
+onValue(otherPresenceRef, (snap) => {
+  const data = snap.val();
+  if (data && data.online) {
+    onlineCircle.style.display = "block";
+  } else {
+    onlineCircle.style.display = "none";
+  }
+});
 
-function setUser(name){
-  currentUserName = name;
-
-  if(nom) nom.textContent = currentUserName;
-  if(photo) photo.src = avatar[currentUserName] || picture[0];
-
-  const onlineRef = dbRef(db, `online/${currentUserName}`);
-  const otherUser = currentUserName === "Hillal" ? "Amel" : "Hillal";
-  const otherOnlineRef = dbRef(db, `online/${otherUser}`);
-
-  // Marquer cet utilisateur en ligne et retirer à la déconnexion
-  set(onlineRef, true);
-  onDisconnect(onlineRef).remove();
-
-  // Surveille l'état de l'autre utilisateur
-  onValue(otherOnlineRef, (snap) => {
-    if(snap.exists()){
-      ggreen.style.display = "block"; // l'autre est en ligne
-    } else {
-      ggreen.style.display = "none"; // l'autre est hors ligne
-    }
-  });
-}
-
-window.setUser = setUser;
-setUser(currentUserName);
-
-*/
 
 // ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
 async function uploadAndSendFile(file){
@@ -754,6 +746,7 @@ window.microphone = microphone;
 })();
 
     
+
 
 
 
