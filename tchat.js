@@ -368,8 +368,8 @@ onChildAdded(messagesRef, (snap) => {
   }catch(err){
     console.error("Render message error:", err);
   }
-});
-*/
+  */
+
 // 🔔 Fonction pour déclencher une notification navigateur
 function showNotification(title, body) {
   if (Notification.permission === "granted") {
@@ -385,167 +385,179 @@ function showNotification(title, body) {
 
 onChildAdded(messagesRef, (snap) => {
   const msg = snap.val();
-  if(!msg) return;
-  try{
+  if (!msg) return;
+
+  try {
     const element = document.createElement('div');
     element.classList.add('message-item');
-
     const dateText = msg.date || formatDateNow();
 
     // TEXT
-    if(msg.type === "text" || !msg.type){
-      if(msg.user === currentUserName){
-        element.innerHTML=`
+    if (msg.type === "text" || !msg.type) {
+      if (msg.user === currentUserName) {
+        // ✅ Ton message
+        element.innerHTML = `
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
-              <div class="droite">${ escapeHtml(msg.text) }</div>
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
+              <div class="droite">${escapeHtml(msg.text)}</div>
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[0])}">
             </div>
           </div>
         `;
         audioh();
       } else {
-        element.innerHTML=`
+        // ✅ Message reçu
+        element.innerHTML = `
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
-              <div class="gauche">${ escapeHtml(msg.text) }</div>
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[1])}">
+              <div class="gauche">${escapeHtml(msg.text)}</div>
             </div>
           </div>
         `;
         audioa();
-        showNotification("📩 Nouveau message", msg.text);
+        showNotification("📩 Nouveau message", msg.text); // 🔔 notif
       }
       incrementCounterFor(msg.user);
     }
+
     // IMAGE
-    else if(msg.type === "image"){
-      if(msg.user === currentUserName){
-        element.innerHTML=`
+    else if (msg.type === "image") {
+      if (msg.user === currentUserName) {
+        element.innerHTML = `
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
               <div class="droite"><img class="phshared" src="${escapeHtml(msg.url)}" /></div>
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[0])}">
             </div>
           </div>
         `;
         audioh();
       } else {
-        element.innerHTML=`
+        element.innerHTML = `
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[1])}">
               <div class="gauche"><img class="phshared" src="${escapeHtml(msg.url)}" /></div>
             </div>
           </div>
         `;
         audioa();
-        showNotification("📸 Nouvelle image", "Tu as reçu une photo.");
+        showNotification("📸 Nouvelle image", "Tu as reçu une photo."); // 🔔 notif
       }
       incrementCounterFor(msg.user);
     }
+
     // AUDIO
-    else if(msg.type === "audio"){
-      if(msg.user === currentUserName){
-        element.innerHTML=`
+    else if (msg.type === "audio") {
+      if (msg.user === currentUserName) {
+        element.innerHTML = `
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
               <div class="droite"><audio controls src="${escapeHtml(msg.url)}"></audio></div>
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[0])}">
             </div>
           </div>
         `;
         audioh();
       } else {
-        element.innerHTML=`
+        element.innerHTML = `
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[1])}">
               <div class="gauche"><audio controls src="${escapeHtml(msg.url)}"></audio></div>
             </div>
           </div>
         `;
         audioa();
-        showNotification("🎤 Nouveau vocal", "Tu as reçu un message audio.");
+        showNotification("🎤 Nouveau vocal", "Tu as reçu un message audio."); // 🔔 notif
       }
       incrementCounterFor(msg.user);
     }
+
     // VIDEO
-    else if(msg.type === "video"){
-      if(msg.user === currentUserName){
-        element.innerHTML=`
+    else if (msg.type === "video") {
+      if (msg.user === currentUserName) {
+        element.innerHTML = `
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
               <div class="droite"><video controls width="320" src="${escapeHtml(msg.url)}"></video></div>
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[0])}">
             </div>
           </div>
         `;
         audioh();
       } else {
-        element.innerHTML=`
+        element.innerHTML = `
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[1])}">
               <div class="gauche"><video controls width="320" src="${escapeHtml(msg.url)}"></video></div>
             </div>
           </div>
         `;
         audioa();
-        showNotification("🎬 Nouvelle vidéo", "Tu as reçu une vidéo.");
+        showNotification("🎬 Nouvelle vidéo", "Tu as reçu une vidéo."); // 🔔 notif
       }
       incrementCounterFor(msg.user);
     }
+
     // mention-heart
-    else if(msg.type === "mention-heart"){
-      if(msg.user === currentUserName){
-        element.innerHTML=`
+    else if (msg.type === "mention-heart") {
+      if (msg.user === currentUserName) {
+        element.innerHTML = `
           <div class="bloc1">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="hillal">
               <i class="fa fa-heart"></i>
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[0])}">
             </div>
           </div>
         `;
         generercoeur();
       } else {
-        element.innerHTML=`
+        element.innerHTML = `
           <div class="bloc2">
             <div class="date">${escapeHtml(dateText)}</div>
             <div class="amel">
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
+              <img class="ph" src="${escapeHtml(avatar[msg.user] || picture[1])}">
               <i class="fa fa-heart"></i>
             </div>
           </div>
         `;
         generercoeur();
-        showNotification("❤️ Réaction", "Tu as reçu un cœur.");
+        showNotification("❤️ Réaction", "Tu as reçu un cœur."); // 🔔 notif
       }
       incrementCounterFor(msg.user);
     }
+
+    // AUTRE TYPE
     else {
       element.innerHTML = `<pre>${escapeHtml(JSON.stringify(msg, null, 2))}</pre>`;
     }
 
-    element.addEventListener("dblclick", ()=>{ 
-      if(confirm("Voulez-vous supprimer ce message localement ?")) element.remove();
+    // Suppression locale au double-clic
+    element.addEventListener("dblclick", () => {
+      if (confirm("Voulez-vous supprimer ce message localement ?")) element.remove();
     });
 
+    // ✅ Ajouter le message dans le tchat
     content.appendChild(element);
     content.scrollTop = content.scrollHeight;
-  }catch(err){
+
+  } catch (err) {
     console.error("Render message error:", err);
   }
 });
+
 
 
 
@@ -736,6 +748,7 @@ window.microphone = microphone;
 })();
 
     
+
 
 
 
