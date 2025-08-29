@@ -210,7 +210,7 @@ function incrementCounterFor(userName){
     if(compteur){ compteur.textContent = compteuramel; compteur.classList.add("namel"); }
   }
 }
-/*
+
 onChildAdded(messagesRef, (snap) => {
   const msg = snap.val();
   if(!msg) return;
@@ -368,7 +368,8 @@ onChildAdded(messagesRef, (snap) => {
   }catch(err){
     console.error("Render message error:", err);
   }
-  */
+})
+  /*
 
 // 🔔 Fonction pour déclencher une notification navigateur
 function showNotification(title, body) {
@@ -558,7 +559,7 @@ onChildAdded(messagesRef, (snap) => {
   }
 });
 
-
+*/
 
 
 // ----------------- GÉNÉRATEUR DE COEURS -----------------
@@ -748,6 +749,7 @@ window.microphone = microphone;
 })();
 
     
+
 
 
 
