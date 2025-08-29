@@ -34,6 +34,11 @@ const db = getDatabase(appFirebase);
 const storage = getStorage(appFirebase);
 const messagesRef = dbRef(db, "messages");
 
+if ("Notification" in window && Notification.permission !== "granted") {
+  Notification.requestPermission();
+}
+
+
 // ----------------- CONFIG UTILISATEUR -----------------
 let currentUserName = localStorage.getItem("tchatUser") || "Hillal"; 
 
@@ -749,6 +754,7 @@ window.microphone = microphone;
 })();
 
     
+
 
 
 
