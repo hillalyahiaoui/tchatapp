@@ -67,7 +67,7 @@ margin-bottom: 20px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0;
+    padding-bottom: 15px;
     
     
     
@@ -118,13 +118,13 @@ margin-bottom: 20px;
 textarea{
     border-radius: 15px;
     resize: none;
-    width: 180px;
+    width: 200px;
     height: 40px;
     border: none;
     outline: none;
     padding: 3px 10px;
     font-size: 1rem;
-    border-radius: 10px 10px 0px 0px;
+    border-radius: 30px;
     color: rgb(17, 37, 48);
     bottom: 0;
     background-color: rgb(209, 207, 204);
@@ -636,6 +636,7 @@ em, .quitter,.quitteraudio{
     width: 100%;
     height: 100%;
   }}
+
 
 
 
