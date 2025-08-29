@@ -491,6 +491,33 @@ window.kamera = kamera;
 window.microphone = microphone;
 
 
+// Charger la librairie Emoji Button
+const script = document.createElement("script");
+script.src = "https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.js";
+document.head.appendChild(script);
+
+script.onload = () => {
+  const picker = new EmojiButton({
+    position: "top-start", // position par rapport au textarea
+    autoHide: false
+  });
+
+  const textarea = document.getElementById("area"); // ton textarea où tu écris le message
+
+  // Quand tu cliques dans le textarea, on affiche le sélecteur
+  textarea.addEventListener("focus", () => {
+    picker.togglePicker(textarea);
+  });
+
+  // Quand tu choisis un emoji, on l’ajoute directement dans le texte
+  picker.on("emoji", emoji => {
+    textarea.value += emoji;
+  });
+};
+        
+
+
+
 
 
 
