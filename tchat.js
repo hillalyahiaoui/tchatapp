@@ -168,6 +168,33 @@ onValue(otherPresenceRef, (snap) => {
   }
 });
 
+// Crée le texte de présence
+const onlineText = document.createElement("div");
+onlineText.style.position = "absolute";
+onlineText.style.bottom = "-18px"; // juste en dessous du rond vert
+onlineText.style.right = "0px";
+onlineText.style.fontSize = "12px";
+onlineText.style.color = "limegreen";
+onlineText.style.fontWeight = "bold";
+onlineText.style.display = "none"; // caché par défaut
+onlineText.textContent = "En ligne";
+
+// On ajoute le texte au même parent que la photo
+if(photo && photo.parentNode){
+    photo.parentNode.appendChild(onlineText);
+}
+
+// Surveille la présence de l’autre
+onValue(otherPresenceRef, (snap) => {
+    const data = snap.val();
+    if(data && data.online){
+        onlineCircle.style.display = "block";
+        onlineText.style.display = "block";
+    } else {
+        onlineCircle.style.display = "none";
+        onlineText.style.display = "none";
+    }
+});
 
 // ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
 async function uploadAndSendFile(file){
@@ -746,6 +773,7 @@ window.microphone = microphone;
 })();
 
     
+
 
 
 
