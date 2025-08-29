@@ -491,37 +491,73 @@ window.kamera = kamera;
 window.microphone = microphone;
 
 
-    // Charger la librairie Emoji Button
-const script = document.createElement("script");
-script.src = "https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.js";
-document.head.appendChild(script);
+// ====== EMOJI PICKER (auto au focus + bouton) ======
+(function setupEmojiPicker() {
+  const ta = document.querySelector('#textarea');
+  if (!ta) { console.warn('Emoji picker: #textarea introuvable'); return; }
 
-script.onload = () => {
-  // Sélecteur d'emoji
-  const picker = new EmojiButton();
+  // on met le bouton près du textarea si possible
+  const holder = document.querySelector('.areacoeur') || ta.parentNode;
 
-  // Récupère ton textarea
-  
+  // Crée un petit bouton emoji (au cas où l’auto-ouverture ne se verrait pas)
+  const emojiBtn = document.createElement('button');
+  emojiBtn.type = 'button';
+  emojiBtn.textContent = '😊';
+  emojiBtn.style.marginLeft = '6px';
+  emojiBtn.style.fontSize = '1.2rem';
+  emojiBtn.style.cursor = 'pointer';
+  emojiBtn.style.background = 'transparent';
+  emojiBtn.style.border = 'none';
+  holder.appendChild(emojiBtn);
 
-  // Crée un bouton emoji à côté du textarea
-  const emojiBtn = document.createElement("button");
-  emojiBtn.textContent = "😀";
-  emojiBtn.style.marginLeft = "5px";
-  emojiBtn.style.cursor = "pointer";
-  emojiBtn.type = "button"; // pour ne pas envoyer le formulaire
-  textarea.parentNode.insertBefore(emojiBtn, textarea.nextSibling);
+  // Charge la librairie Emoji Button dynamiquement
+  const s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/index.min.js';
+  s.defer = true;
 
-  // Quand tu cliques sur le bouton, ouvre/ferme le picker
-  emojiBtn.addEventListener("click", () => {
-    picker.togglePicker(emojiBtn);
-  });
+  s.onload = () => {
+    try {
+      const picker = new EmojiButton({
+        position: 'top-start',
+        autoHide: false,
+        zIndex: 99999
+      });
 
-  // Quand un emoji est choisi, on l’ajoute dans le textarea
-  picker.on("emoji", emoji => {
-    textarea.value += emoji;
-  });
-};
+      // Ouvrir au clic sur le bouton
+      emojiBtn.addEventListener('click', () => {
+        picker.togglePicker(emojiBtn);
+      });
+
+      // Ouvrir automatiquement quand tu cliques dans le textarea
+      let opened = false;
+      ta.addEventListener('focus', () => {
+        if (!opened) picker.showPicker(emojiBtn);
+      });
+
+      picker.on('show', () => { opened = true; });
+      picker.on('hide', () => { opened = false; });
+
+      // Insérer l’emoji à la position du curseur
+      picker.on('emoji', (selection) => {
+        const emoji = selection.emoji || selection;
+        const start = ta.selectionStart ?? ta.value.length;
+        const end = ta.selectionEnd ?? ta.value.length;
+        ta.value = ta.value.slice(0, start) + emoji + ta.value.slice(end);
+        const pos = start + emoji.length;
+        ta.setSelectionRange(pos, pos);
+        ta.focus();
+      });
+    } catch (e) {
+      console.error('Emoji picker init error:', e);
+    }
+  };
+
+  s.onerror = () => console.error('Impossible de charger Emoji Button (CDN)');
+  document.head.appendChild(s);
+})();
+
     
+
 
 
 
