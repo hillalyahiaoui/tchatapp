@@ -24,8 +24,8 @@ const firebaseConfig = {
   authDomain: "hillaltchat.firebaseapp.com",
   databaseURL: "https://hillaltchat-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "hillaltchat",
- // storageBucket: "hillaltchat.firebasestorage.app",
-  storageBucket: "hillaltchat.appspot.com,
+  storageBucket: "hillaltchat.firebasestorage.app",
+ // storageBucket: "hillaltchat.appspot.com,
   messagingSenderId: "674583669453",
   appId: "1:674583669453:web:f2343dee4a4f41901ed784"
 };
@@ -748,6 +748,7 @@ window.microphone = microphone;
 })();
 
     
+
 
 
 
