@@ -1,4 +1,5 @@
 
+
 // ======================== tchat.js (version finale) ========================
 // Inclure dans le HTML : <script type="module" src="./tchat.js"></script>
 
@@ -125,147 +126,49 @@ if(photo) photo.src = avatar[currentUserName] || picture[0];
 
 // ----------------- INDICATEUR EN LIGNE -----------------
 
-/* 
------------------ PRÉSENCE EN LIGNE -----------------
-//import { set, onDisconnect, onValue } 
-//  from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+// ----------------- PRÉSENCE EN LIGNE -----------------
+import { set, onDisconnect, onValue } 
+  from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
-window.addEventListener('load', () => {
-  if(photo){
-    // Cercle vert
-    const onlineCircle = document.createElement("div");
-    onlineCircle.style.width = "12px";
-    onlineCircle.style.height = "12px";
-    onlineCircle.style.backgroundColor = "limegreen";
-    onlineCircle.style.border = "2px solid white";
-    onlineCircle.style.borderRadius = "50%";
-    onlineCircle.style.position = "absolute";
-    onlineCircle.style.bottom = "2px";
-    onlineCircle.style.right = "2px";
+// Référence "presence" dans Firebase
+const presenceRef = dbRef(db, "presence/" + currentUserName);
+
+// Marquer l’utilisateur actuel en ligne
+set(presenceRef, { online: true, lastSeen: Date.now() });
+// Retirer quand il ferme la page
+onDisconnect(presenceRef).set({ online: false, lastSeen: Date.now() });
+
+// Déterminer l’autre utilisateur
+const otherUser = currentUserName === "Hillal" ? "Amel" : "Hillal";
+const otherPresenceRef = dbRef(db, "presence/" + otherUser);
+
+// Petit rond vert sur la photo si l’autre est en ligne
+const onlineCircle = document.createElement("div");
+onlineCircle.style.width = "12px";
+onlineCircle.style.height = "12px";
+onlineCircle.style.backgroundColor = "limegreen";
+onlineCircle.style.border = "2px solid white";
+onlineCircle.style.borderRadius = "50%";
+onlineCircle.style.position = "absolute";
+onlineCircle.style.bottom = "2px";
+onlineCircle.style.right = "2px";
+onlineCircle.style.display = "none";
+
+if (photo && photo.parentNode) {
+  photo.parentNode.style.position = "relative";
+  photo.parentNode.appendChild(onlineCircle);
+}
+
+// Surveille la présence de l’autre
+onValue(otherPresenceRef, (snap) => {
+  const data = snap.val();
+  if (data && data.online) {
+    onlineCircle.style.display = "block";
+  } else {
     onlineCircle.style.display = "none";
-    photo.parentNode.style.position = "relative";
-    photo.parentNode.appendChild(onlineCircle);
-
-    // Texte en ligne
-    const onlineText = document.createElement("div");
-    onlineText.style.position = "absolute";
-    onlineText.style.bottom = "-18px";
-    onlineText.style.right = "0px";
-    onlineText.style.fontSize = "12px";
-    onlineText.style.color = "limegreen";
-    onlineText.style.fontWeight = "bold";
-    onlineText.style.display = "none";
-    onlineText.textContent = "En ligne";
-    photo.parentNode.appendChild(onlineText);
-
-    // Presence Firebase
-    const presenceRef = dbRef(db, "presence/" + currentUserName);
-    set(presenceRef, { online: true, lastSeen: Date.now() });
-    onDisconnect(presenceRef).set({ online: false, lastSeen: Date.now() });
-
-    const otherUser = currentUserName === "Hillal" ? "Amel" : "Hillal";
-    const otherPresenceRef = dbRef(db, "presence/" + otherUser);
-
-    onValue(otherPresenceRef, (snap) => {
-      const data = snap.val();
-      if(data && data.online){
-        onlineCircle.style.display = "block";
-        onlineText.style.display = "block";
-      } else {
-        onlineCircle.style.display = "none";
-        onlineText.style.display = "none";
-      }
-    });
-  }
-});
-  */
-
-// ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
-async function uploadAndSendFile(file){
-  if(!file) return;
-  let type = "file";
-  if(file.type.startsWith("image/")) type = "image";
-  else if(file.type.startsWith("audio/")) type = "audio";
-  else if(file.type.startsWith("video/")) type = "video";
-
-  const path = `${type}s/${Date.now()}_${file.name}`;
-  const sref = storageRef(storage, path);
-
-  try {
-    const snapshot = await uploadBytes(sref, file);
-    const url = await getDownloadURL(snapshot.ref);
-
-    await push(messagesRef, {
-      user: currentUserName,
-      type: type,
-      url: url,
-      name: file.name,
-      size: file.size,
-      date: new Date().toLocaleString()
-    });
-  } catch (err) {
-    console.error("Upload error:", err);
-  }
-}
-
-// ----------------- RENDER MESSAGE RECEIVED FROM DB -----------------
-function incrementCounterFor(userName){
-  if(userName === "Hillal"){
-    compteurhillal++;
-    if(compteur){ compteur.textContent = compteurhillal; compteur.classList.add("nhillal"); }
-  } else if(userName === "Amel"){
-    compteuramel++;
-    if(compteur){ compteur.textContent = compteuramel; compteur.classList.add("namel"); }
-  }
-}
-
-onChildAdded(messagesRef, (snap) => {
-  const msg = snap.val();
-  if(!msg) return;
-  try{
-    const element = document.createElement('div');
-    element.classList.add('message-item');
-
-    const dateText = msg.date || formatDateNow();
-
-    // TEXT
-    if(msg.type === "text" || !msg.type){
-      if(msg.user === currentUserName){
-        element.innerHTML=`
-          <div class="bloc1">
-            <div class="date">${escapeHtml(dateText)}</div>
-            <div class="hillal">
-              <div class="droite">${ escapeHtml(msg.text) }</div>
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[0])}">
-            </div>
-          </div>
-        `;
-        audioh();
-      } else {
-        element.innerHTML=`
-          <div class="bloc2">
-            <div class="date">${escapeHtml(dateText)}</div>
-            <div class="amel">
-              <img class="ph" src="${escapeHtml(avatar[msg.user]||picture[1])}">
-              <div class="gauche">${ escapeHtml(msg.text) }</div>
-            </div>
-          </div>
-        `;
-        audioa();
-      }
-      incrementCounterFor(msg.user);
-    }
-    // IMAGE/AUDIO/VIDEO/HEART etc. --> reste identique à ton code précédent
-    // ...
-    content.appendChild(element);
-    content.scrollTop = content.scrollHeight;
-  }catch(err){
-    console.error("Render message error:", err);
   }
 });
 
-// ----------------- GÉNÉRATEUR DE COEURS, BOUTON ENVOYER, THEMES, MDP etc. -----------------
-// Le reste de ton code reste inchangé, y compris generercoeur(), envoi de fichier, emoji picker, thèmes, etc.
 
 // ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
 async function uploadAndSendFile(file){
@@ -844,6 +747,70 @@ window.microphone = microphone;
 })();
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
