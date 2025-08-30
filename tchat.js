@@ -125,7 +125,8 @@ if(photo) photo.src = avatar[currentUserName] || picture[0];
 
 // ----------------- INDICATEUR EN LIGNE -----------------
 
-// ----------------- PRÉSENCE EN LIGNE -----------------
+/* 
+----------------- PRÉSENCE EN LIGNE -----------------
 //import { set, onDisconnect, onValue } 
 //  from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
@@ -177,6 +178,7 @@ window.addEventListener('load', () => {
     });
   }
 });
+  */
 
 // ----------------- UPLOAD & SEND FILE TO STORAGE -----------------
 async function uploadAndSendFile(file){
@@ -842,6 +844,7 @@ window.microphone = microphone;
 })();
 
     
+
 
 
 
