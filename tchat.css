@@ -185,7 +185,7 @@ button:hover{
     max-width:80%;
 }
 .ph{
-    min-width: 40px;
+    max-width: 40px;
     max-height: 40px;
     border-radius: 50%;
 }
@@ -639,6 +639,7 @@ em, .quitter,.quitteraudio{
     width: 100%;
     height: 100%;
   }}
+
 
 
 
