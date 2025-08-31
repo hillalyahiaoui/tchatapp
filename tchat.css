@@ -168,7 +168,8 @@ button:hover{
     background-color: rgb(42, 117, 230);
     color: white;
     padding:  10px;
-    border-radius: 145px 140px 9px 150px;
+   /* border-radius: 145px 140px 9px 150px;*/
+    border-radius: 16px 16px 0 16px; 
 
     float: right;
     margin-left: 8px;
@@ -177,7 +178,8 @@ button:hover{
     background-color: rgb(178, 178, 196);
     color: black;
     padding: 10px ;
-    border-radius: 140px 145px 150px 9px;
+   /* border-radius: 140px 145px 150px 9px;*/
+    border-radius: 16px 16px 16px 0;
     margin-right: 8px;
     float: left;
 }
@@ -636,6 +638,7 @@ em, .quitter,.quitteraudio{
     width: 100%;
     height: 100%;
   }}
+
 
 
 
