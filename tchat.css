@@ -159,7 +159,7 @@ button:hover{
     
 }
 .photo{
-    width: 6px;
+    width: 60px;
     height: 60px;
     border-radius: 50%;
 }
@@ -636,6 +636,7 @@ em, .quitter,.quitteraudio{
     width: 100%;
     height: 100%;
   }}
+
 
 
 
