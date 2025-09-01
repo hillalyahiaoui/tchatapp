@@ -391,59 +391,13 @@ function generercoeur(){
 }
 
 // ----------------- BOUTON UNIQUE ENVOYER -----------------
-/*let pendingFile = null;
-
-if(filInput){
-  filInput.addEventListener("change", (e)=>{
-    const file = e.target.files && e.target.files[0];
-    if(file){
-      pendingFile = file;
-      if(file.type.startsWith("image/")){
-        const reader = new FileReader();
-        reader.onload = function(ev){
-          const preview = document.createElement("img");
-          preview.src = ev.target.result;
-          preview.classList.add("phshared");
-          preview.style.opacity = "0.7";
-          content.appendChild(preview);
-          content.scrollTop = content.scrollHeight;
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-    filInput.value = "";
-  });
-}
-
-if(envoyer){
-  envoyer.addEventListener("click", async (e)=>{
-    e.preventDefault();
-    const messageText = textarea?.value?.trim() || "";
-
-    if(pendingFile){
-      await uploadAndSendFile(pendingFile);
-      pendingFile = null;
-    }
-
-    if(messageText !== ""){
-      await push(messagesRef, {
-        user: currentUserName,
-        type: "text",
-        text: messageText,
-        date: formatDateNow()
-      });
-    }*/
-
-// ----------------- BOUTON UNIQUE ENVOYER (texte + image) -----------------
 let pendingFile = null;
 
-// Quand on choisit un fichier
 if(filInput){
   filInput.addEventListener("change", (e)=>{
     const file = e.target.files && e.target.files[0];
     if(file){
       pendingFile = file;
-      // Prévisualisation si image
       if(file.type.startsWith("image/")){
         const reader = new FileReader();
         reader.onload = function(ev){
@@ -451,8 +405,6 @@ if(filInput){
           preview.src = ev.target.result;
           preview.classList.add("phshared");
           preview.style.opacity = "0.7";
-          preview.style.maxWidth = "150px";
-          preview.style.borderRadius = "8px";
           content.appendChild(preview);
           content.scrollTop = content.scrollHeight;
         };
@@ -463,19 +415,16 @@ if(filInput){
   });
 }
 
-// Envoi message ou image au clic
 if(envoyer){
   envoyer.addEventListener("click", async (e)=>{
     e.preventDefault();
     const messageText = textarea?.value?.trim() || "";
 
-    // Si fichier en attente, upload et envoi
     if(pendingFile){
       await uploadAndSendFile(pendingFile);
       pendingFile = null;
     }
 
-    // Si texte présent, envoi texte
     if(messageText !== ""){
       await push(messagesRef, {
         user: currentUserName,
@@ -719,6 +668,7 @@ window.microphone = microphone;
     alert("Erreur : " + err.message);
   }
 });
+
 
 
 
