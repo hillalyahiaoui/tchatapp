@@ -15,7 +15,9 @@ import {
   getStorage,
   ref as storageRef,
   uploadBytes,
-  getDownloadURL
+  getDownloadURL,
+  set, 
+  onValue
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
 // ----------------- CONFIG FIREBASE -----------------
@@ -34,6 +36,9 @@ const appFirebase = initializeApp(firebaseConfig);
 const db = getDatabase(appFirebase);
 const storage = getStorage(appFirebase);
 const messagesRef = dbRef(db, "messages");
+
+const typingRef = dbRef(db, "typing/" + currentUserName);
+const otherTypingRef = dbRef(db, "typing/" + otherUser);
 
 if ("Notification" in window && Notification.permission !== "granted") {
   Notification.requestPermission();
@@ -89,11 +94,7 @@ var compteurhillal=0;
 var compteuramel=0;
 
 // ----------------- INDICATEUR "EN TRAIN D'ÉCRIRE" (AVEC AVATAR) -----------------
-import { set, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
-
-const typingRef = dbRef(db, "typing/" + currentUserName);
-const otherTypingRef = dbRef(db, "typing/" + otherUser);
-
+ 
 // 🔹 Déclare "je suis en train d'écrire"
 if (textarea) {
   textarea.addEventListener("input", () => {
@@ -835,6 +836,7 @@ window.microphone = microphone;
 
   
  
+
 
 
 
