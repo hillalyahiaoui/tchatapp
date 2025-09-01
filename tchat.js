@@ -9,9 +9,7 @@ import {
   getDatabase,
   ref as dbRef,
   push,
-  onChildAdded,
-  set, 
-  onValue
+  onChildAdded
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 import {
   getStorage,
@@ -832,6 +830,7 @@ window.microphone = microphone;
 
   
  
+
 
 
 
