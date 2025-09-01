@@ -191,7 +191,7 @@ async function uploadAndSendFile(file){
       url: url,
       name: file.name,
       size: file.size,
-      date: new Date().toLocaleString()
+      date: formatDateNow()
     });
   } catch (err) {
     console.error("Upload error:", err);
@@ -575,7 +575,7 @@ function generercoeur(){
   push(messagesRef, {
     user: currentUserName,
     type: "mention-heart",
-    date: new Date().toLocaleString()
+    date: formatDateNow()
   }).catch(()=>{});
 }
 
@@ -619,7 +619,7 @@ if(envoyer){
         user: currentUserName,
         type: "text",
         text: messageText,
-        date: new Date().toLocaleString()
+        date: formatDateNow()
       });
     }
 
@@ -749,6 +749,7 @@ window.microphone = microphone;
 
   
  
+
 
 
 
