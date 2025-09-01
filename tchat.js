@@ -676,71 +676,43 @@ if(mdpInput){
   });
 }
 // ----------------- INDICATEUR "EN TRAIN D'ÉCRIRE" -----------------
-//import { set, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
-// références typing (maintenant que currentUserName & otherUser existent déjà)
+// ----------------- INDICATEUR "EN TRAIN D'ÉCRIRE" -----------------
+
 const typingRef = dbRef(db, "typing/" + currentUserName);
 const otherTypingRef = dbRef(db, "typing/" + otherUser);
 
-// 🔹 Déclare "je suis en train d'écrire"
+// 🔹 Quand j'écris, je mets à jour Firebase
 if (textarea) {
   textarea.addEventListener("input", () => {
     set(typingRef, {
-      isTyping: textarea.value.length > 0,
+      isTyping: textarea.value.trim().length > 0,
       ts: Date.now()
     });
   });
 }
 
-// 🔹 Crée bulle avec avatar + 3 points animés
+// 🔹 Affiche bulle "3 points" (style WhatsApp/Facebook)
 function showTypingBubble(sender) {
   let bubble = document.getElementById("typing-" + sender);
   if (!bubble) {
     bubble = document.createElement("div");
     bubble.id = "typing-" + sender;
-    bubble.style.display = "flex";
-    bubble.style.alignItems = "center";
-    bubble.style.gap = "8px";
-    bubble.style.margin = "5px";
-
-    // avatar
-    const img = document.createElement("img");
-    img.src = sender === "Hillal" ? "hil.jpg" : "hana.jpeg"; // 🔹 adapte selon tes fichiers
-    img.style.width = "28px";
-    img.style.height = "28px";
-    img.style.borderRadius = "50%";
-
-    // bulle
-    const dots = document.createElement("div");
-    dots.textContent = "• • •";
-    dots.style.padding = "6px 12px";
-    dots.style.borderRadius = "18px";
-    dots.style.fontSize = "18px";
-    dots.style.fontWeight = "bold";
-    dots.style.animation = "blink 1s infinite";
-
-    if (sender === currentUserName) {
-      bubble.style.justifyContent = "flex-end";
-      dots.style.background = "#0078ff";
-      dots.style.color = "#fff";
-    } else {
-      bubble.style.justifyContent = "flex-start";
-      dots.style.background = "#e5e5ea";
-      dots.style.color = "#000";
-    }
-
-    bubble.appendChild(img);
-    bubble.appendChild(dots);
+    bubble.className = "typing-bubble";
+    bubble.innerHTML = `
+      <img src="${sender === "Hillal" ? avatar.Hillal : avatar.Amel}" 
+           style="width:28px;height:28px;border-radius:50%;margin-right:6px">
+      <div class="typing-dots"><span></span><span></span><span></span></div>
+    `;
     content.appendChild(bubble);
     content.scrollTop = content.scrollHeight;
   }
 
-  // supprime après 3s
   clearTimeout(bubble.timeout);
   bubble.timeout = setTimeout(() => bubble.remove(), 3000);
 }
 
-// 🔹 Surveille si l’autre écrit
+// 🔹 Surveille l’autre utilisateur
 onValue(otherTypingRef, (snap) => {
   const data = snap.val();
   if (data && data.isTyping) {
@@ -751,15 +723,38 @@ onValue(otherTypingRef, (snap) => {
   }
 });
 
-// 🔹 Animation CSS
+// 🔹 CSS animation des 3 points
 const styleTyping = document.createElement("style");
 styleTyping.textContent = `
+.typing-bubble {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px;
+}
+.typing-dots {
+  background: #e5e5ea;
+  border-radius: 18px;
+  padding: 6px 10px;
+  display: flex;
+  gap: 4px;
+}
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  background: #555;
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
 @keyframes blink {
-  0%   { opacity: 0.2; }
-  50%  { opacity: 1; }
-  100% { opacity: 0.2; }
+  0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
 }`;
 document.head.appendChild(styleTyping);
+
 
 // expose helpers
 window.generercoeur = generercoeur;
@@ -837,6 +832,7 @@ window.microphone = microphone;
 
   
  
+
 
 
 
