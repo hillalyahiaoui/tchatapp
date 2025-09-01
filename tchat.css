@@ -648,9 +648,9 @@ em, .quitter,.quitteraudio{
 
 /* Textarea Messenger style avec expansion douce */
 #textarea {
-  width: 120%;
-  min-height: 40px;       /* hauteur initiale */
-  max-height: 80px;      /* hauteur maximale avant scroll */
+  width: 150%;
+  min-height: 30px;       /* hauteur initiale */
+  max-height: 60px;      /* hauteur maximale avant scroll */
   padding: 8px 12px;
   border-radius: 30px;
   border: 1px solid #ccd0d5;
@@ -707,6 +707,7 @@ em, .quitter,.quitteraudio{
   font-size: 14px;
   display: block;
 }
+
 
 
 
