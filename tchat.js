@@ -676,7 +676,7 @@ if(mdpInput){
   });
 }
 // ----------------- INDICATEUR "EN TRAIN D'ÉCRIRE" -----------------
-import { set, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+//import { set, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
 // références typing (maintenant que currentUserName & otherUser existent déjà)
 const typingRef = dbRef(db, "typing/" + currentUserName);
@@ -837,6 +837,7 @@ window.microphone = microphone;
 
   
  
+
 
 
 
