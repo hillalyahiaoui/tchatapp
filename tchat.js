@@ -827,30 +827,23 @@ window.microphone = microphone;
   document.head.appendChild(s);
 })();
 
-// --- Étape 2 : Activer la caméra et le micro ---
-const localVideo = document.getElementById("localVideo");
 
-async function startLocalStream() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true
-    });
-    localVideo.srcObject = stream;
-    console.log("✅ Caméra et micro activés");
-    return stream;
-  } catch (err) {
-    console.error("❌ Erreur accès caméra/micro :", err);
-  }
-}
-
-// Au démarrage de la page
-startLocalStream();
 
 
 
   
- 
+ document.getElementById('testCam').addEventListener('click', async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    document.getElementById('testVideo').srcObject = stream;
+    console.log("✅ Flux caméra et micro OK", stream);
+  } catch (err) {
+    console.error("❌ Erreur flux caméra/micro:", err);
+    alert("Erreur : " + err.message);
+  }
+});
+
+
 
 
 
