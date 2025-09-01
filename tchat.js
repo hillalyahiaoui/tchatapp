@@ -88,6 +88,92 @@ var photcoeur = ["images.jpeg"];
 var compteurhillal=0;
 var compteuramel=0;
 
+// ----------------- INDICATEUR "EN TRAIN D'ÉCRIRE" (AVEC AVATAR) -----------------
+import { set, onValue } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+const typingRef = dbRef(db, "typing/" + currentUserName);
+const otherTypingRef = dbRef(db, "typing/" + otherUser);
+
+// 🔹 Déclare "je suis en train d'écrire"
+if (textarea) {
+  textarea.addEventListener("input", () => {
+    set(typingRef, {
+      isTyping: textarea.value.length > 0,
+      ts: Date.now()
+    });
+  });
+}
+
+// 🔹 Crée bulle avec avatar + 3 points
+function showTypingBubble(sender) {
+  let bubble = document.getElementById("typing-" + sender);
+  if (!bubble) {
+    bubble = document.createElement("div");
+    bubble.id = "typing-" + sender;
+    bubble.style.display = "flex";
+    bubble.style.alignItems = "center";
+    bubble.style.gap = "8px";
+    bubble.style.margin = "5px";
+
+    // Avatar
+    const avatar = document.createElement("img");
+    avatar.src = sender === "Hillal" ? "hillal.png" : "amel.png"; // 🔹 adapte les chemins
+    avatar.style.width = "32px";
+    avatar.style.height = "32px";
+    avatar.style.borderRadius = "50%";
+
+    // Bulle de texte
+    const dots = document.createElement("div");
+    dots.textContent = "• • •";
+    dots.style.padding = "6px 12px";
+    dots.style.borderRadius = "18px";
+    dots.style.fontSize = "18px";
+    dots.style.fontWeight = "bold";
+    dots.style.animation = "blink 1s infinite";
+    dots.style.display = "inline-block";
+
+    // Couleurs et alignement
+    if (sender === currentUserName) {
+      bubble.style.justifyContent = "flex-end";
+      dots.style.background = "#0078ff";
+      dots.style.color = "#fff";
+    } else {
+      bubble.style.justifyContent = "flex-start";
+      dots.style.background = "#e5e5ea";
+      dots.style.color = "#000";
+    }
+
+    bubble.appendChild(avatar);
+    bubble.appendChild(dots);
+    content.appendChild(bubble);
+    content.scrollTop = content.scrollHeight;
+  }
+
+  // supprime automatiquement après 3s
+  clearTimeout(bubble.timeout);
+  bubble.timeout = setTimeout(() => bubble.remove(), 3000);
+}
+
+// 🔹 Surveille si l’autre écrit
+onValue(otherTypingRef, (snap) => {
+  const data = snap.val();
+  if (data && data.isTyping) {
+    showTypingBubble(otherUser);
+  }
+});
+
+// 🔹 Animation CSS
+const styleTyping = document.createElement("style");
+styleTyping.textContent = `
+@keyframes blink {
+  0%   { opacity: 0.2; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+`;
+document.head.appendChild(styleTyping);
+
+
 // ----------------- UTIL - DATE -----------------
 function formatDateNow() {
   const jours = ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."];
@@ -749,6 +835,7 @@ window.microphone = microphone;
 
   
  
+
 
 
 
