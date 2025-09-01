@@ -116,7 +116,7 @@ margin-bottom: 20px;
     cursor: pointer;
     
 }
-textarea{
+/*textarea{
     border-radius: 15px;
     resize: none;
     width: 250px;
@@ -134,7 +134,7 @@ textarea::placeholder{
     color:darkblue;
     font-size: 1rem;
 
-}
+}*/
  button{
     
     cursor: pointer;     
@@ -640,6 +640,74 @@ em, .quitter,.quitteraudio{
     width: 100%;
     height: 100%;
   }}
+
+
+
+
+
+
+/* Textarea Messenger style avec expansion douce */
+#textarea {
+  width: 100%;
+  min-height: 40px;       /* hauteur initiale */
+  max-height: 120px;      /* hauteur maximale avant scroll */
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccd0d5;
+  background-color: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+  transition: height 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
+  overflow-y: hidden;     /* cache le scroll initial */
+  resize: none;
+}
+
+/* Placeholder style */
+#textarea::placeholder {
+  color: #65676b;
+  opacity: 1;
+}
+
+/* Focus style */
+#textarea:focus {
+  outline: none;
+  border: 1.5px solid #1877f2;
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+}
+
+/* Expansion fluide ligne par ligne avec overflow auto si dépasse max-height */
+#textarea:focus, 
+#textarea:not(:placeholder-shown) {
+  height: auto;
+  overflow-y: auto;
+}
+
+/* Scrollbar discrète */
+#textarea::-webkit-scrollbar {
+  width: 6px;
+}
+#textarea::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+#textarea::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Astuce Messenger : min-height + line-height pour calculer l’expansion ligne par ligne */
+#textarea::after {
+  content: attr(data-content) " ";
+  visibility: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 8px 12px;
+  line-height: 18px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  display: block;
+}
+
 
 
 
