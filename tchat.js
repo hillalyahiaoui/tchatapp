@@ -9,15 +9,15 @@ import {
   getDatabase,
   ref as dbRef,
   push,
-  onChildAdded
+  onChildAdded,
+  set, 
+  onValue
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 import {
   getStorage,
   ref as storageRef,
   uploadBytes,
-  getDownloadURL,
-  set, 
-  onValue
+  getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
 // ----------------- CONFIG FIREBASE -----------------
@@ -832,6 +832,7 @@ window.microphone = microphone;
 
   
  
+
 
 
 
