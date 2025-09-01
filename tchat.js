@@ -448,21 +448,6 @@ if(envoyer){
     }
   });
 }
-
-
-    if(textarea){ textarea.value = ""; textarea.focus(); }
-    if(entraiecrire){ entraiecrire.textContent = ""; entraiecrire.classList.remove('entrainecrire'); }
-    if(divcoeur) divcoeur.style.display = "none";
-  });
-
-  textarea?.addEventListener("keydown", (ev) => {
-    if(ev.key === "Enter" && !ev.shiftKey){
-      ev.preventDefault();
-      envoyer.click();
-    }
-  });
-}
-
 // ----------------- CLEAR ALL -----------------
 if(clear){
   clear.addEventListener("click", ()=>{
@@ -668,6 +653,7 @@ window.microphone = microphone;
     alert("Erreur : " + err.message);
   }
 });
+
 
 
 
