@@ -167,7 +167,7 @@ button:hover{
 .droite{
     background: #056162; 
     color: #fff;
-    padding:  10px;
+    padding: 5px 10px;
     border-radius: 16px 16px 0 16px; 
     max-width:90%;
     float: right;
@@ -178,7 +178,7 @@ button:hover{
     color: black;*/
     background: #262d31;
     color: #fff;
-    padding: 10px ;
+    padding: 5px 10px ;
     border-radius: 16px 16px 16px 0;
     margin-right: 8px;
     float: left;
@@ -639,6 +639,7 @@ em, .quitter,.quitteraudio{
     width: 100%;
     height: 100%;
   }}
+
 
 
 
