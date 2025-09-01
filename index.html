@@ -33,16 +33,14 @@
             
 
         </div>
-        <div class="vid">
 
-            <div class="quitter">x</div>
-            <div class="video" onclick="kamera()" ><i class="fa fa-video" ></i></div>
-        </div>
-        <div class="aud">
+        <!-- Zone appel -->
+<video id="localVideo" autoplay muted playsinline></video>
+<video id="remoteVideo" autoplay playsinline></video>
 
-            <div class="quitteraudio">x</div>
-            <div class="audio" onclick="microphone()" ><i class="fa fa-microphone"></i></div>
-        </div>
+<button id="startCall">Démarrer appel</button>
+<button id="answerCall">Répondre</button>
+
         <div class="clear"><i class="fa fa-trash"></i></div>
         
     </nav>
@@ -75,6 +73,7 @@
     
 </body>
 </html>
+
 
 
 
